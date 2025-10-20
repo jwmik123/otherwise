@@ -15,6 +15,7 @@ export default {
       colors: {
         black: '#0d0e12',
         white: '#fff',
+        primary: '#E48320',
         cyan: {
           50: '#e7fefe',
           100: '#c5fcfc',
@@ -96,6 +97,7 @@ export default {
       },
       fontFamily: {
         sans: ['var(--font-inter)'],
+        barlow: ['var(--font-barlow)'],
       },
     },
   },

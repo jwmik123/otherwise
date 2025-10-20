@@ -95,3 +95,28 @@ export const pagesSlugs = defineQuery(`
   *[_type == "page" && defined(slug.current)]
   {"slug": slug.current}
 `)
+
+export const allDisciplinesQuery = defineQuery(`
+  *[_type == "discipline" && defined(slug.current)] | order(_createdAt asc) {
+    _id,
+    title,
+    slug,
+    coverImage,
+  }
+`)
+
+export const disciplineQuery = defineQuery(`
+  *[_type == "discipline" && slug.current == $slug] [0] {
+    _id,
+    title,
+    slug,
+    coverImage,
+    description,
+    images,
+  }
+`)
+
+export const disciplinesSlugs = defineQuery(`
+  *[_type == "discipline" && defined(slug.current)]
+  {"slug": slug.current}
+`)

@@ -13,7 +13,7 @@
   --color-framework: #000;
   --color-black: #0b0b0b;
   --color-white: #fff;
-  --color-brand: #f50;
+  --color-primary: #F0973F;
   --color-blue: #0052ff;
   --color-yellow: #cdea19;
   --color-gray-50: #f6f6f8;
@@ -30,6 +30,35 @@
 
   --font-display: 'Inter', 'sans-serif';
   --font-sans: 'Inter', 'sans-serif';
+  --font-barlow: 'Barlow', 'sans-serif';
 
   --default-transition-duration: 250ms;
+}
+
+
+.cursor {
+  z-index: 100;
+  background-color: #287CB9;
+  border: 1px solid #287CB9;
+  border-radius: 100em;
+  width: 1em;
+  height: 1em;
+  transition: background-color .375s cubic-bezier(.625, .05, 0, 1), height .375s cubic-bezier(.625, .05, 0, 1), width .375s cubic-bezier(.625, .05, 0, 1);
+  position: fixed;
+  inset: 0% auto auto 0%;
+  pointer-events: none;
+}
+
+body:has( a:hover) .cursor,
+body:has( button:hover) .cursor,
+body:has( [data-cursor]:hover) .cursor{
+  width: 3em;
+  height: 3em;
+  background-color: rgba(40, 124, 185, 0.3);
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .cursor {
+    display: none;
+  }
 }

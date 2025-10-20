@@ -2,7 +2,7 @@ import './globals.css'
 
 import {SpeedInsights} from '@vercel/speed-insights/next'
 import type {Metadata} from 'next'
-import {Inter} from 'next/font/google'
+import {Inter, Barlow} from 'next/font/google'
 import {draftMode} from 'next/headers'
 import {VisualEditing, toPlainText} from 'next-sanity'
 import {Toaster} from 'sonner'
@@ -15,6 +15,7 @@ import {sanityFetch, SanityLive} from '@/sanity/lib/live'
 import {settingsQuery} from '@/sanity/lib/queries'
 import {resolveOpenGraphImage} from '@/sanity/lib/utils'
 import {handleError} from './client-utils'
+import Link from 'next/link'
 
 /**
  * Generate metadata for the page.
@@ -57,13 +58,21 @@ const inter = Inter({
   display: 'swap',
 })
 
+const barlow = Barlow({
+  variable: '--font-barlow',
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  display: 'swap',
+})
+
 export default async function RootLayout({children}: {children: React.ReactNode}) {
   const {isEnabled: isDraftMode} = await draftMode()
 
   return (
-    <html lang="en" className={`${inter.variable} bg-white text-black`}>
+    <html lang="en" className={`${inter.variable} ${barlow.variable} bg-primary text-white`}>
       <body>
-        <section className="min-h-screen pt-24">
+        <div className="cursor"></div>
+        <section className="h-screen flex flex-col overflow-hidden">
           {/* The <Toaster> component is responsible for rendering toast notifications used in /app/client-utils.ts and /app/components/DraftModeToast.tsx */}
           <Toaster />
           {isDraftMode && (
@@ -75,11 +84,26 @@ export default async function RootLayout({children}: {children: React.ReactNode}
           )}
           {/* The <SanityLive> component is responsible for making all sanityFetch calls in your application live, so should always be rendered. */}
           <SanityLive onError={handleError} />
-          <Header />
-          <main className="">{children}</main>
-          <Footer />
+          <div className="flex-shrink-0 px-8 py-12 text-black">
+            <nav className="flex items-center justify-between text-sm font-medium">
+              <Link href="/" className="flex items-center">
+                <img
+                  src="/images/white-logo.png"
+                  alt="Logo"
+                  className="h-12 w-auto mr-6"
+                />
+              </Link>
+              <div className="flex gap-6 text-white">
+                <Link href="/">Home</Link>
+                <Link href="/about">About</Link>
+                <Link href="/contact">Contact</Link>
+              </div>
+            </nav>
+          </div>
+          <main className="flex-1 min-h-0">{children}</main>
         </section>
         <SpeedInsights />
+
       </body>
     </html>
   )
