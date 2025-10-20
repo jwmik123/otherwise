@@ -40,29 +40,31 @@ export default async function DisciplinePage({params}: Props) {
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white">
       {/* Hero Image */}
-      <div className="relative w-full h-[60vh]">
-        <Image
-          src={urlFor(discipline.coverImage).width(1920).height(1080).url()}
-          alt={discipline.coverImage.alt || discipline.title}
-          fill
-          className="object-cover"
-          priority
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent" />
-        <div className="absolute bottom-0 left-0 right-0 p-8 md:p-16">
-          <div className="container mx-auto">
-            <h1 className="text-5xl md:text-7xl font-bold uppercase tracking-tight">
-              {discipline.title}
-            </h1>
+      {discipline.coverImage && (
+        <div className="relative w-full h-[60vh]">
+          <Image
+            src={urlFor(discipline.coverImage).width(1920).height(1080).url()}
+            alt={discipline.coverImage.alt || discipline.title || 'Discipline cover image'}
+            fill
+            className="object-cover"
+            priority
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent" />
+          <div className="absolute bottom-0 left-0 right-0 p-8 md:p-16">
+            <div className="container mx-auto">
+              <h1 className="text-5xl md:text-7xl font-bold uppercase tracking-tight">
+                {discipline.title}
+              </h1>
+            </div>
           </div>
         </div>
-      </div>
+      )}
 
       {/* Content */}
       <div className="container mx-auto px-8 md:px-16 py-12 md:py-20">
         {discipline.description && (
           <div className="prose prose-lg prose-invert max-w-none mb-16">
-            <PortableText value={discipline.description} />
+            <PortableText value={discipline.description as any} />
           </div>
         )}
 
