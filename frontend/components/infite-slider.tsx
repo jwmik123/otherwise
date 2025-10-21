@@ -53,7 +53,7 @@ export default function InfiniteSlider({
 
     // Set initial state only once
     if (!hasAnimatedRef.current) {
-      gsap.set('.slider-item', { scaleY: 0 });
+      gsap.set('.slider-item', { scaleY: 0, opacity: 0 });
       gsap.set(sliderWrapper, { x: 1200 });
     }
 
@@ -72,6 +72,7 @@ export default function InfiniteSlider({
       })
         .to('.slider-item', {
           scaleY: 1,
+          opacity: 1,
           duration: 1,
           ease: 'power2.out',
           stagger: 0.05
@@ -99,13 +100,15 @@ export default function InfiniteSlider({
     const handleWheel = (e: WheelEvent) => {
       e.preventDefault();
 
-      targetXRef.current -= e.deltaY * 0.625;
-      scrollVelocity = Math.abs(e.deltaY * 0.125);
+      targetXRef.current -= e.deltaY * 1.5;
+      scrollVelocity = Math.abs(e.deltaY * 0.3);
 
       // Scale items based on velocity (shrink when scrolling)
-      const scale = 1 - Math.min(scrollVelocity * 0.002, 0.3);
+      const scaleY = 1 - Math.min(scrollVelocity * 0.002, 0.1);
+      const scaleX = 1 - Math.min(scrollVelocity * 0.0015, 0.2);
       gsap.to('.slider-item', {
-        scaleY: scale,
+        scaleY: scaleY,
+        scaleX: scaleX,
         duration: 0.3,
         ease: 'power2.out'
       });
@@ -122,6 +125,7 @@ export default function InfiniteSlider({
       scrollTimeoutRef.current = setTimeout(() => {
         gsap.to('.slider-item', {
           scaleY: 1,
+          scaleX: 1,
           duration: 0.5,
           ease: 'power2.out'
         });
@@ -143,13 +147,15 @@ export default function InfiniteSlider({
     const handleTouchMove = (e: TouchEvent) => {
       touchCurrentX = e.touches[0].clientX;
       const diff = touchStartX - touchCurrentX;
-      targetXRef.current -= diff * 0.625;
+      targetXRef.current -= diff * 1.5;
       touchStartX = touchCurrentX;
 
-      scrollVelocity = Math.abs(diff * 0.625);
-      const scale = 1 - Math.min(scrollVelocity * 0.003, 0.3);
+      scrollVelocity = Math.abs(diff * 1.5);
+      const scaleY = 1 - Math.min(scrollVelocity * 0.003, 0.1);
+      const scaleX = 1 - Math.min(scrollVelocity * 0.0015, 0.2);
       gsap.to('.slider-item', {
-        scaleY: scale,
+        scaleY: scaleY,
+        scaleX: scaleX,
         duration: 0.3,
         ease: 'power2.out'
       });
@@ -159,6 +165,7 @@ export default function InfiniteSlider({
       setTimeout(() => {
         gsap.to('.slider-item', {
           scaleY: 1,
+          scaleX: 1,
           duration: 0.5,
           ease: 'power2.out'
         });
@@ -189,10 +196,16 @@ export default function InfiniteSlider({
     document.addEventListener('touchmove', handleTouchMove);
     document.addEventListener('touchend', handleTouchEnd);
 
+    // Start animation loop if slider has already been animated
+    if (hasAnimatedRef.current && !animationFrameRef.current) {
+      animate();
+    }
+
     // Cleanup
     return () => {
       if (animationFrameRef.current) {
         cancelAnimationFrame(animationFrameRef.current);
+        animationFrameRef.current = 0;
       }
       if (scrollTimeoutRef.current) {
         clearTimeout(scrollTimeoutRef.current);

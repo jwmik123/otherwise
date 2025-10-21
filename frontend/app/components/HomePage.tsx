@@ -68,6 +68,9 @@ export default function HomePage({ disciplines }: HomePageProps) {
 
     // Collect all lines from all elements
     elements.forEach((element) => {
+      // Set parent opacity to 1 immediately to allow GSAP to control child opacity
+      gsap.set(element, { opacity: 1 })
+
       // Split each element into lines
       const split = new SplitText(element, { type: 'lines', linesClass: 'split-line' })
       splits.push(split)
@@ -118,28 +121,28 @@ export default function HomePage({ disciplines }: HomePageProps) {
       <div className="flex-1" />
 
       <div className="flex w-full px-8 pb-12 text-white gap-8 flex-shrink-0">
-        <div className="w-1/2">
+        <div className="w-full lg:w-1/2">
           <p className="text-[clamp(0.875rem,1.5vw,1.125rem)]"></p>
         </div>
-        <div ref={textContainerRef} className="w-1/2 flex flex-col justify-center gap-4">
+        <div ref={textContainerRef} className="w-full lg:w-1/2 flex flex-col justify-center gap-4">
           <div className="overflow-hidden">
-            <p className="animate-text text-[1vw] tracking-wider font-barlow tracking-tight -mb-1">Otherwise</p>
+            <p className="animate-text text-[1.2vw] font-barlow tracking-tight -mb-1 opacity-0">Otherwise</p>
           </div>
           <div className="overflow-hidden">
-            <h2 className="animate-text text-[4vw] font-bold leading-none font-barlow tracking-tight uppercase">Aanders denken én anders doen.</h2>
+            <h2 className="animate-text text-[5vw] font-bold leading-none font-barlow tracking-tight uppercase opacity-0">Anders denken én anders doen.</h2>
           </div>
           <div className="overflow-hidden">
-            <h3 className="animate-text text-[1.5vw] opacity-80 font-barlow tracking-tighter">Snel, secuur en altijd een oplossing</h3>
+            <h3 className="animate-text text-[1.5vw] opacity-0 font-barlow tracking-tighter">Snel, secuur en altijd een oplossing</h3>
           </div>
           <div className="flex items-center justify-between gap-6 w-full">
             <div className="overflow-hidden">
-              <button className="animate-text py-3 text-[1vw] font-barlow tracking-tight relative inline-block pb-2">
-                All ons werk
-                <span className="animate-underline absolute bottom-0 left-0 right-0 h-[1px] bg-white"></span>
+              <button className="animate-text py-3 text-[1vw] font-barlow tracking-tight relative inline-block pb-2 opacity-0">
+                Bekijk al ons werk
+                <span className="animate-underline absolute -bottom-1 left-0 right-0 h-[1px] bg-white"></span>
               </button>
             </div>
             <div className="overflow-hidden">
-              <span className="animate-text text-[.7vw]">(scroll)</span>
+              <span className="animate-text text-[.7vw] opacity-0">(scroll)</span>
             </div>
           </div>
         </div>

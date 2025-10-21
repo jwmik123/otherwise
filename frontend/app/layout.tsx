@@ -93,9 +93,9 @@ export default async function RootLayout({children}: {children: React.ReactNode}
                   className="h-12 w-auto mr-6"
                 />
               </Link>
-              <div className="flex gap-6 text-white">
+              <div className="flex gap-10 text-white text-lg">
                 <Link href="/">Home</Link>
-                <Link href="/about">About</Link>
+                <Link href="/werk">Werk</Link>
                 <Link href="/contact">Contact</Link>
               </div>
             </nav>
@@ -103,7 +103,6 @@ export default async function RootLayout({children}: {children: React.ReactNode}
           <main className="flex-1 min-h-0">{children}</main>
         </section>
         <SpeedInsights />
-
       </body>
     </html>
   )
