@@ -113,6 +113,7 @@ export default function HomePage({ disciplines }: HomePageProps) {
   }, [])
 
   return (
+
     <div className="h-full flex flex-col overflow-hidden">
       <div className="flex-shrink-0 pt-8">
         <InfiniteSlider items={disciplines} itemWidth={sliderWidth} />
@@ -120,7 +121,7 @@ export default function HomePage({ disciplines }: HomePageProps) {
 
       <div className="flex-1" />
 
-      <div className="flex w-full px-8 pb-12 text-white gap-8 flex-shrink-0">
+      <div className="flex w-full px-8 pb-12 gap-8 flex-shrink-0">
         <div className="w-full lg:w-1/2">
           <p className="text-[clamp(0.875rem,1.5vw,1.125rem)]"></p>
         </div>
@@ -138,7 +139,7 @@ export default function HomePage({ disciplines }: HomePageProps) {
             <div className="overflow-hidden">
               <button className="animate-text py-3 text-[1vw] font-barlow tracking-tight relative inline-block pb-2 opacity-0">
                 Bekijk al ons werk
-                <span className="animate-underline absolute -bottom-1 left-0 right-0 h-[1px] bg-white"></span>
+                <span className="animate-underline absolute -bottom-1 left-0 right-0 h-[1px] bg-black"></span>
               </button>
             </div>
             <div className="overflow-hidden">
@@ -148,5 +149,6 @@ export default function HomePage({ disciplines }: HomePageProps) {
         </div>
       </div>
     </div>
+
   )
 }

@@ -227,7 +227,7 @@ export default function InfiniteSlider({
   }
 
   return (
-    <div className="relative w-full overflow-hidden text-white">
+    <div className="relative w-full overflow-hidden">
       {showVelocity && (
         <div className="absolute top-5 left-5 bg-black/50 px-4 py-3 rounded-lg text-sm z-10">
           <div>Scroll horizontally (or use mousewheel)</div>

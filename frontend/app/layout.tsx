@@ -69,8 +69,8 @@ export default async function RootLayout({children}: {children: React.ReactNode}
   const {isEnabled: isDraftMode} = await draftMode()
 
   return (
-    <html lang="en" className={`${inter.variable} ${barlow.variable} bg-primary text-white`}>
-      <body>
+    <html lang="en" className={`${inter.variable} ${barlow.variable} bg-white`}>
+      <body className="overflow-hidden">
         <div className="cursor"></div>
         <section className="h-screen flex flex-col overflow-hidden">
           {/* The <Toaster> component is responsible for rendering toast notifications used in /app/client-utils.ts and /app/components/DraftModeToast.tsx */}
@@ -84,16 +84,16 @@ export default async function RootLayout({children}: {children: React.ReactNode}
           )}
           {/* The <SanityLive> component is responsible for making all sanityFetch calls in your application live, so should always be rendered. */}
           <SanityLive onError={handleError} />
-          <div className="flex-shrink-0 px-8 py-12 text-black">
+          <div className="flex-shrink-0 px-8 py-8">
             <nav className="flex items-center justify-between text-sm font-medium">
               <Link href="/" className="flex items-center">
                 <img
-                  src="/images/white-logo.png"
+                  src="/images/logo-color.png"
                   alt="Logo"
-                  className="h-12 w-auto mr-6"
+                  className="h-20 w-auto mr-6"
                 />
               </Link>
-              <div className="flex gap-10 text-white text-lg">
+              <div className="flex gap-10 text-lg">
                 <Link href="/">Home</Link>
                 <Link href="/werk">Werk</Link>
                 <Link href="/contact">Contact</Link>
