@@ -27,7 +27,7 @@ interface InfiniteSliderProps {
 
 export default function InfiniteSlider({
   items = [],
-  itemWidth = 350,
+  itemWidth = 550,
   gap = 48,
   showVelocity = false,
   maxHeight = 'auto',
@@ -261,7 +261,7 @@ export default function InfiniteSlider({
               />
             </div>
             <div className="pt-4">
-              <h3 className="text-xl font-bold uppercase tracking-tight">{item.title}</h3>
+              <h3 className="text-xl tracking-tight">{item.title}</h3>
             </div>
           </Link>
         ))}

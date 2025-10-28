@@ -25,7 +25,7 @@ interface HomePageProps {
 
 export default function HomePage({ disciplines }: HomePageProps) {
   const textContainerRef = useRef<HTMLDivElement>(null)
-  const [sliderWidth, setSliderWidth] = useState(400)
+  const [sliderWidth, setSliderWidth] = useState(550)
 
   useEffect(() => {
     // Initialize custom cursor
@@ -133,7 +133,7 @@ export default function HomePage({ disciplines }: HomePageProps) {
             <h2 className="animate-text text-[5vw] font-bold leading-none font-barlow tracking-tight uppercase opacity-0">Anders denken én anders doen.</h2>
           </div>
           <div className="overflow-hidden">
-            <h3 className="animate-text text-[1.5vw] opacity-0 font-barlow tracking-tighter">Snel, secuur en altijd een oplossing</h3>
+            <h3 className="animate-text text-[1.5vw] opacity-0 font-barlow tracking-tighter" style={{ color: '#287CB9' }}>Snel, secuur en altijd een oplossing</h3>
           </div>
           <div className="flex items-center justify-between gap-6 w-full">
             <div className="overflow-hidden">

@@ -86,9 +86,7 @@ export default function SimplifiedHomePage({ disciplines }: SimplifiedHomePagePr
       {/* Title Section */}
       <div className="w-full px-8 pt-24 pb-12 flex-shrink-0">
         <div ref={textContainerRef} className="max-w-4xl mx-auto">
-          <div className="overflow-hidden">
-            <p className="animate-text text-[clamp(0.875rem,1.5vw,1.125rem)] font-barlow tracking-tight mb-2 opacity-0">Otherwise</p>
-          </div>
+
           <div className="overflow-hidden">
             <h1 className="animate-text text-[clamp(2.5rem,5vw,4rem)] font-bold leading-none font-barlow tracking-tight uppercase opacity-0">
               Anders denken én anders doen
