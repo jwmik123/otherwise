@@ -27,17 +27,17 @@ interface InfiniteSliderProps {
 
 export default function InfiniteSlider({
   items = [],
-  itemWidth = 550,
+  itemWidth = 700,
   gap = 48,
   showVelocity = false,
   maxHeight = 'auto',
 }: InfiniteSliderProps) {
   // Calculate height based on 4:3 aspect ratio
-  const itemHeight = Math.round(itemWidth / (5 / 3));
+  const itemHeight = Math.round(itemWidth / (4 / 3));
 
   const sliderWrapperRef = useRef<HTMLDivElement>(null);
   const velocityDisplayRef = useRef<HTMLDivElement>(null);
-  const startX = -800;
+  const startX = -1200;
   const currentXRef = useRef(startX);
   const targetXRef = useRef(startX);
   const animationFrameRef = useRef<number>(0);

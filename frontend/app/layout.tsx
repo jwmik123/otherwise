@@ -10,6 +10,7 @@ import {Toaster} from 'sonner'
 import DraftModeToast from '@/app/components/DraftModeToast'
 import Footer from '@/app/components/Footer'
 import Header from '@/app/components/Header'
+import Marquee from '@/app/components/Marquee'
 import * as demo from '@/sanity/lib/demo'
 import {sanityFetch, SanityLive} from '@/sanity/lib/live'
 import {settingsQuery} from '@/sanity/lib/queries'
@@ -84,6 +85,7 @@ export default async function RootLayout({children}: {children: React.ReactNode}
           )}
           {/* The <SanityLive> component is responsible for making all sanityFetch calls in your application live, so should always be rendered. */}
           <SanityLive onError={handleError} />
+          <Marquee text="Nu €50 korting met de the otherprice days" />
           <div className="flex-shrink-0 px-8 py-8">
             <nav className="flex items-center justify-between text-sm font-medium">
               <Link href="/" className="flex items-center">
