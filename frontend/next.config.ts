@@ -6,7 +6,6 @@ const nextConfig: NextConfig = {
     SC_DISABLE_SPEEDY: 'false',
   },
   images: {
-    domains: ['cdn.sanity.io'],
     remotePatterns: [
       {
         protocol: 'https',
