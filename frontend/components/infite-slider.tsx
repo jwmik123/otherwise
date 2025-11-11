@@ -2,8 +2,11 @@
 
 import { useEffect, useRef, useState, useCallback, useMemo } from 'react';
 import { gsap } from 'gsap';
+import { SplitText } from 'gsap/SplitText';
 import Image from 'next/image';
 import Link from 'next/link';
+
+gsap.registerPlugin(SplitText);
 
 interface DisciplineItem {
   _id: string;
@@ -85,8 +88,8 @@ export default function InfiniteSlider({
 
   // Memoize scale animation
   const animateScale = useCallback((velocity: number) => {
-    const scaleY = 1 - Math.min(velocity * 0.002, 0.1);
-    const scaleX = 1 - Math.min(velocity * 0.0015, 0.2);
+    const scaleY = 1 - Math.min(velocity * 0.002, 0.02);
+    const scaleX = 1 - Math.min(velocity * 0.0015, 0.05);
     
     gsap.to('.slider-item', {
       scaleY,
@@ -144,6 +147,31 @@ export default function InfiniteSlider({
     const startAnimation = () => {
       if (hasAnimatedRef.current) return;
 
+      // Split all item titles into lines and wrap in overflow containers
+      const titleElements = document.querySelectorAll('.item-title');
+      const splits: SplitText[] = [];
+
+      titleElements.forEach((title) => {
+        // Set parent opacity to 1 immediately to allow GSAP to control child opacity
+        gsap.set(title, { opacity: 1 });
+
+        const split = new SplitText(title, { type: 'lines', linesClass: 'title-line' });
+        splits.push(split);
+
+        // Wrap lines in overflow containers
+        split.lines.forEach((line) => {
+          const wrapper = document.createElement('div');
+          wrapper.style.overflow = 'hidden';
+          line.parentNode?.insertBefore(wrapper, line);
+          wrapper.appendChild(line);
+        });
+
+        // Set initial state for lines
+        gsap.set(split.lines, { y: 50, opacity: 0 });
+      });
+
+      const allTitleLines = splits.flatMap(split => split.lines);
+
       gsap.timeline({
         onComplete: () => {
           currentXRef.current = -1200;
@@ -167,7 +195,14 @@ export default function InfiniteSlider({
             currentXRef.current = currentX;
             targetXRef.current = currentX;
           }
-        }, 0);
+        }, 0)
+        .to(allTitleLines, {
+          y: 0,
+          opacity: 1,
+          duration: 0.8,
+          ease: 'power3.out',
+          stagger: 0.02
+        }, '-=0.3'); // Start slightly before slider animation ends
 
       hasAnimatedRef.current = true;
     };
@@ -289,7 +324,7 @@ export default function InfiniteSlider({
             }}
           >
             <div className="pb-4">
-              <h3 className="text-[clamp(0.875rem,1.5vw,1.125rem)] -mb-1 tracking-tight">
+              <h3 className="item-title text-[clamp(0.875rem,1.5vw,1.125rem)] pl-3 -mb-1 tracking-tight opacity-0">
                 {item.title}
               </h3>
             </div>

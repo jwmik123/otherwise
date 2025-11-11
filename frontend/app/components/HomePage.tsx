@@ -100,6 +100,14 @@ export default function HomePage({ disciplines }: HomePageProps) {
       const split = new SplitText(element, { type: 'lines', linesClass: 'split-line' })
       splits.push(split)
 
+      // Wrap lines in overflow containers
+      split.lines.forEach((line) => {
+        const wrapper = document.createElement('div')
+        wrapper.style.overflow = 'hidden'
+        line.parentNode?.insertBefore(wrapper, line)
+        wrapper.appendChild(line)
+      })
+
       // Set initial state for this element's lines
       gsap.set(split.lines, { y: 100, opacity: 0 })
     })
@@ -107,12 +115,13 @@ export default function HomePage({ disciplines }: HomePageProps) {
     // Get all lines from all splits
     const allLines = splits.flatMap(split => split.lines)
 
-    // Animate all lines at once
+    // Animate lines one by one with stagger
     tl.to(allLines, {
       y: 0,
       opacity: 1,
-      duration: 1.5,
-      ease: 'power2.inOut',
+      duration: 1,
+      ease: 'power3.out',
+      stagger: 0.08, // Delay between each line
     })
 
     // Animate underline width
@@ -153,7 +162,7 @@ export default function HomePage({ disciplines }: HomePageProps) {
             <p className="animate-text text-[1.2vw] font-barlow tracking-tight -mb-1 opacity-0">Otherwise</p>
           </div> */}
           <div className="overflow-hidden">
-            <h2 className="animate-text text-[clamp(2.5rem,5vw,5rem)] font-bold text-primary leading-none font-barlow tracking-tight uppercase opacity-0">Anders denken <br /> én anders doen.</h2>
+            <h1 className="animate-text text-[clamp(2.5rem,5vw,5rem)] font-bold text-primary leading-none font-barlow tracking-tight uppercase opacity-0">Anders denken <br /> én anders doen.</h1>
           </div>
           
           {/* <div className="flex items-center justify-between gap-6 w-full">
