@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState, useCallback, useMemo } from 'react';
 import { gsap } from 'gsap';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -19,34 +19,100 @@ interface DisciplineItem {
 
 interface InfiniteSliderProps {
   items?: DisciplineItem[];
-  itemWidth?: number;
   gap?: number;
   showVelocity?: boolean;
-  maxHeight?: string;
+  heightPercentage?: number;
+  aspectRatio?: number;
 }
 
 export default function InfiniteSlider({
   items = [],
-  itemWidth = 700,
   gap = 48,
   showVelocity = false,
-  maxHeight = 'auto',
+  heightPercentage = 30,
+  aspectRatio = 16 / 9,
 }: InfiniteSliderProps) {
-  // Calculate height based on 4:3 aspect ratio
-  const itemHeight = Math.round(itemWidth / (4 / 3));
+  const [itemHeight, setItemHeight] = useState(0);
+  const [itemWidth, setItemWidth] = useState(0);
 
   const sliderWrapperRef = useRef<HTMLDivElement>(null);
   const velocityDisplayRef = useRef<HTMLDivElement>(null);
-  const startX = -1200;
-  const currentXRef = useRef(startX);
-  const targetXRef = useRef(startX);
+  const currentXRef = useRef(-1200);
+  const targetXRef = useRef(-1200);
   const animationFrameRef = useRef<number>(0);
-  const scrollTimeoutRef = useRef<ReturnType<typeof setTimeout>>(null);
+  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const hasAnimatedRef = useRef(false);
+  const scrollVelocityRef = useRef(0);
+
+  // Memoize tripled items array
+  const tripledItems = useMemo(() => 
+    [...items, ...items, ...items], 
+    [items]
+  );
+
+  // Update dimensions with debouncing
+  useEffect(() => {
+    const updateDimensions = () => {
+      const height = Math.round(window.innerHeight * (heightPercentage / 100));
+      const width = Math.round(height * aspectRatio);
+      setItemHeight(height);
+      setItemWidth(width);
+    };
+
+    updateDimensions();
+
+    let timeoutId: NodeJS.Timeout;
+    const resizeObserver = new ResizeObserver((entries) => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        for (const entry of entries) {
+          const newHeight = entry.contentRect.height;
+          const height = Math.round(newHeight * (heightPercentage / 100));
+          const width = Math.round(height * aspectRatio);
+          setItemHeight(height);
+          setItemWidth(width);
+        }
+      }, 100); // Debounce resize
+    });
+
+    resizeObserver.observe(document.documentElement);
+
+    return () => {
+      clearTimeout(timeoutId);
+      resizeObserver.disconnect();
+    };
+  }, [heightPercentage, aspectRatio]);
+
+  // Memoize scale animation
+  const animateScale = useCallback((velocity: number) => {
+    const scaleY = 1 - Math.min(velocity * 0.002, 0.1);
+    const scaleX = 1 - Math.min(velocity * 0.0015, 0.2);
+    
+    gsap.to('.slider-item', {
+      scaleY,
+      scaleX,
+      duration: 0.3,
+      ease: 'power2.out'
+    });
+  }, []);
+
+  // Memoize reset scale
+  const resetScale = useCallback(() => {
+    gsap.to('.slider-item', {
+      scaleY: 1,
+      scaleX: 1,
+      duration: 0.5,
+      ease: 'power2.out'
+    });
+    scrollVelocityRef.current = 0;
+    if (showVelocity && velocityDisplayRef.current) {
+      velocityDisplayRef.current.textContent = 'Velocity: 0';
+    }
+  }, [showVelocity]);
 
   useEffect(() => {
     const sliderWrapper = sliderWrapperRef.current;
-    if (!sliderWrapper || items.length === 0) return;
+    if (!sliderWrapper || items.length === 0 || itemHeight === 0) return;
 
     const itemTotalWidth = itemWidth + gap;
     const singleSetWidth = items.length * itemTotalWidth;
@@ -57,127 +123,11 @@ export default function InfiniteSlider({
       gsap.set(sliderWrapper, { x: 1200 });
     }
 
-    // Listen for trigger from text animation
-    const startAnimation = () => {
-      if (hasAnimatedRef.current) return;
-
-      gsap.timeline({
-        onComplete: () => {
-          // Update refs to match final position after animation
-          currentXRef.current = startX;
-          targetXRef.current = startX;
-          // Start the animation loop after GSAP animation completes
-          animate();
-        }
-      })
-        .to('.slider-item', {
-          scaleY: 1,
-          opacity: 1,
-          duration: 1,
-          ease: 'power2.out',
-          stagger: 0.05
-        })
-        .to(sliderWrapper, {
-          x: startX,
-          duration: 1.2,
-          ease: 'power3.out',
-          onUpdate: function() {
-            // Sync refs during animation so scroll doesn't interfere
-            const currentX = gsap.getProperty(sliderWrapper, 'x') as number;
-            currentXRef.current = currentX;
-            targetXRef.current = currentX;
-          }
-        }, 0);
-
-      hasAnimatedRef.current = true;
-    }
-
-    window.addEventListener('startSliderAnimation', startAnimation)
-
-    let scrollVelocity = 0;
-
-    // Wheel event handler
-    const handleWheel = (e: WheelEvent) => {
-      e.preventDefault();
-
-      targetXRef.current -= e.deltaY * 1.5;
-      scrollVelocity = Math.abs(e.deltaY * 0.3);
-
-      // Scale items based on velocity (shrink when scrolling)
-      const scaleY = 1 - Math.min(scrollVelocity * 0.002, 0.1);
-      const scaleX = 1 - Math.min(scrollVelocity * 0.0015, 0.2);
-      gsap.to('.slider-item', {
-        scaleY: scaleY,
-        scaleX: scaleX,
-        duration: 0.3,
-        ease: 'power2.out'
-      });
-
-      // Update velocity display
-      if (showVelocity && velocityDisplayRef.current) {
-        velocityDisplayRef.current.textContent = `Velocity: ${scrollVelocity.toFixed(2)}`;
-      }
-
-      // Reset scale after scrolling stops
-      if (scrollTimeoutRef.current) {
-        clearTimeout(scrollTimeoutRef.current);
-      }
-      scrollTimeoutRef.current = setTimeout(() => {
-        gsap.to('.slider-item', {
-          scaleY: 1,
-          scaleX: 1,
-          duration: 0.5,
-          ease: 'power2.out'
-        });
-        scrollVelocity = 0;
-        if (showVelocity && velocityDisplayRef.current) {
-          velocityDisplayRef.current.textContent = 'Velocity: 0';
-        }
-      }, 150);
-    };
-
-    // Touch event handlers
-    let touchStartX = 0;
-    let touchCurrentX = 0;
-
-    const handleTouchStart = (e: TouchEvent) => {
-      touchStartX = e.touches[0].clientX;
-    };
-
-    const handleTouchMove = (e: TouchEvent) => {
-      touchCurrentX = e.touches[0].clientX;
-      const diff = touchStartX - touchCurrentX;
-      targetXRef.current -= diff * 1.5;
-      touchStartX = touchCurrentX;
-
-      scrollVelocity = Math.abs(diff * 1.5);
-      const scaleY = 1 - Math.min(scrollVelocity * 0.003, 0.1);
-      const scaleX = 1 - Math.min(scrollVelocity * 0.0015, 0.2);
-      gsap.to('.slider-item', {
-        scaleY: scaleY,
-        scaleX: scaleX,
-        duration: 0.3,
-        ease: 'power2.out'
-      });
-    };
-
-    const handleTouchEnd = () => {
-      setTimeout(() => {
-        gsap.to('.slider-item', {
-          scaleY: 1,
-          scaleX: 1,
-          duration: 0.5,
-          ease: 'power2.out'
-        });
-        scrollVelocity = 0;
-      }, 150);
-    };
-
-    // Animation loop
+    // Animation loop with requestAnimationFrame
     const animate = () => {
       currentXRef.current += (targetXRef.current - currentXRef.current) * 0.06;
 
-      // Infinite loop logic - reset when we've scrolled one full set
+      // Infinite loop logic
       if (currentXRef.current < -singleSetWidth) {
         currentXRef.current += singleSetWidth;
         targetXRef.current += singleSetWidth;
@@ -190,13 +140,89 @@ export default function InfiniteSlider({
       animationFrameRef.current = requestAnimationFrame(animate);
     };
 
-    // Add event listeners
-    document.addEventListener('wheel', handleWheel, { passive: false });
-    document.addEventListener('touchstart', handleTouchStart);
-    document.addEventListener('touchmove', handleTouchMove);
-    document.addEventListener('touchend', handleTouchEnd);
+    // Start animation trigger
+    const startAnimation = () => {
+      if (hasAnimatedRef.current) return;
 
-    // Start animation loop if slider has already been animated
+      gsap.timeline({
+        onComplete: () => {
+          currentXRef.current = -1200;
+          targetXRef.current = -1200;
+          animate();
+        }
+      })
+        .to('.slider-item', {
+          scaleY: 1,
+          opacity: 1,
+          duration: 1,
+          ease: 'power2.out',
+          stagger: 0.05
+        })
+        .to(sliderWrapper, {
+          x: -1200,
+          duration: 1.2,
+          ease: 'power3.out',
+          onUpdate: function() {
+            const currentX = gsap.getProperty(sliderWrapper, 'x') as number;
+            currentXRef.current = currentX;
+            targetXRef.current = currentX;
+          }
+        }, 0);
+
+      hasAnimatedRef.current = true;
+    };
+
+    // Wheel handler
+    const handleWheel = (e: WheelEvent) => {
+      e.preventDefault();
+
+      targetXRef.current -= e.deltaY * 1.5;
+      scrollVelocityRef.current = Math.abs(e.deltaY * 0.3);
+
+      animateScale(scrollVelocityRef.current);
+
+      if (showVelocity && velocityDisplayRef.current) {
+        velocityDisplayRef.current.textContent = `Velocity: ${scrollVelocityRef.current.toFixed(2)}`;
+      }
+
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
+      scrollTimeoutRef.current = setTimeout(resetScale, 150);
+    };
+
+    // Touch handlers
+    let touchStartX = 0;
+
+    const handleTouchStart = (e: TouchEvent) => {
+      touchStartX = e.touches[0].clientX;
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      const touchCurrentX = e.touches[0].clientX;
+      const diff = touchStartX - touchCurrentX;
+      targetXRef.current -= diff * 1.5;
+      touchStartX = touchCurrentX;
+
+      scrollVelocityRef.current = Math.abs(diff * 1.5);
+      animateScale(scrollVelocityRef.current);
+    };
+
+    const handleTouchEnd = () => {
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
+      scrollTimeoutRef.current = setTimeout(resetScale, 150);
+    };
+
+    // Event listeners
+    window.addEventListener('startSliderAnimation', startAnimation);
+    document.addEventListener('wheel', handleWheel, { passive: false });
+    document.addEventListener('touchstart', handleTouchStart, { passive: true });
+    document.addEventListener('touchmove', handleTouchMove, { passive: true });
+    document.addEventListener('touchend', handleTouchEnd, { passive: true });
+
+    // Start animation if already triggered
     if (hasAnimatedRef.current && !animationFrameRef.current) {
       animate();
     }
@@ -216,11 +242,11 @@ export default function InfiniteSlider({
       document.removeEventListener('touchmove', handleTouchMove);
       document.removeEventListener('touchend', handleTouchEnd);
     };
-  }, [items.length, itemWidth, gap, showVelocity, itemHeight]);
+  }, [items.length, itemWidth, gap, itemHeight, showVelocity, animateScale, resetScale]);
 
   if (items.length === 0) {
     return (
-      <div className="relative w-full overflow-hidden text-white flex justify-center">
+      <div className="relative w-full overflow-hidden flex justify-center">
         <p className="text-sm opacity-50">No disciplines available</p>
       </div>
     );
@@ -240,10 +266,9 @@ export default function InfiniteSlider({
         className="flex will-change-transform"
         style={{ gap: `${gap}px` }}
       >
-        {/* Triple the items to ensure seamless infinite loop */}
-        {[...items, ...items, ...items].map((item, index) => (
+        {tripledItems.map((item, index) => (
           <Link
-            key={`item-${index}-${item._id}`}
+            key={`${item._id}-${index}`}
             href={`/disciplines/${item.slug.current}`}
             className="slider-item will-change-transform flex flex-col group"
             style={{
@@ -251,20 +276,34 @@ export default function InfiniteSlider({
               transformOrigin: 'center bottom',
             }}
           >
-            <div className="relative overflow-hidden" style={{ height: `${itemHeight}px` }}>
+            <div className="pb-4">
+              <h3 className="text-[clamp(0.875rem,1.5vw,1.125rem)] -mb-1 tracking-tight">
+                {item.title}
+              </h3>
+            </div>
+            <div
+              className="relative"
+              style={{
+                height: `${itemHeight}px`,
+                width: `${itemWidth}px`,
+                flexShrink: 0,
+              }}
+            >
               <Image
                 src={item.coverImage.url}
                 alt={item.coverImage.alt || item.title}
                 fill
-                className="object-cover group-hover:scale-105 transition-transform duration-300"
+                className="object-contain group-hover:scale-105 transition-transform duration-300"
                 sizes={`${itemWidth}px`}
+                priority={index < 3} // Prioritize first 3 images
               />
-            </div>
-            <div className="pt-4">
-              <h3 className="text-xl tracking-tight">{item.title}</h3>
             </div>
           </Link>
         ))}
+      </div>
+      
+      <div className="flex justify-end px-4 pt-10">
+        <span className="text-[clamp(0.875rem,1.2vw,0.9rem)]">(Scroll)</span>
       </div>
     </div>
   );

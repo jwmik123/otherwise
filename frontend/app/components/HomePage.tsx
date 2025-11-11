@@ -114,20 +114,21 @@ export default function HomePage({ disciplines }: HomePageProps) {
 
   return (
 
-    <div className="h-full flex flex-col overflow-hidden">
+    <div className="h-full flex flex-col overflow-hidden overflow-x-visible">
+
       <div className="flex-shrink-0 pt-8">
-        <InfiniteSlider items={disciplines} itemWidth={sliderWidth} />
+        <InfiniteSlider items={disciplines} />
       </div>
 
       <div className="flex-1" />
 
-      <div className="flex w-full px-8 pb-12 gap-8 flex-shrink-0" ref={textContainerRef}>
-      <div  className="w-full lg:w-1/2 flex flex-col justify-center gap-4">
+      <div className="flex flex-col lg:flex-row w-full px-8 pb-12 gap-8 flex-shrink-0" ref={textContainerRef}>
+      <div  className="w-full lg:w-1/2 flex flex-col gap-4">
           {/* <div className="overflow-hidden">
             <p className="animate-text text-[1.2vw] font-barlow tracking-tight -mb-1 opacity-0">Otherwise</p>
           </div> */}
           <div className="overflow-hidden">
-            <h2 className="animate-text text-[5vw] font-bold text-primary leading-none font-barlow tracking-tight uppercase opacity-0">Anders denken én anders doen.</h2>
+            <h2 className="animate-text text-[clamp(2.5rem,5vw,5rem)] font-bold text-primary leading-none font-barlow tracking-tight uppercase opacity-0">Anders denken <br /> én anders doen.</h2>
           </div>
           
           {/* <div className="flex items-center justify-between gap-6 w-full">
@@ -145,11 +146,11 @@ export default function HomePage({ disciplines }: HomePageProps) {
 
         <div className="flex-1"/>
         
-        <div className="w-full lg:w-1/4">
+        <div className="w-full lg:w-1/2 hidden lg:block">
         <div className="overflow-hidden">
-            <h3 className="animate-text text-[1.2vw] opacity-0 tracking-tighter font-bold">Snel, secuur en altijd een oplossing</h3>
+            <h3 className="animate-text opacity-0 tracking-tighter font-bold text-[clamp(0.875rem,1.7vw,1.125rem)]">Snel, secuur en altijd een oplossing</h3>
           </div>
-          <p className="text-[clamp(0.875rem,1.5vw,1.125rem)] opacity-0 animate-text">
+          <p className="text-[clamp(0.575rem,1vw,1.1rem)] opacity-0 animate-text">
           Bij Otherwise geloven we dat elk probleem een creatieve oplossing heeft. Of je nu op zoek bent naar een opvallend verpakkingsontwerp, een effectieve direct mail campagne of een gestroomlijnde implementatie van een huisstijlhandboek, wij leveren snel en secuur. Met korte lijnen zorgen we ervoor dat er snel geschakeld kan worden, zonder concessies te doen aan de kwaliteit.
           </p>
         </div>

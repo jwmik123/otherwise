@@ -11,6 +11,7 @@ import DraftModeToast from '@/app/components/DraftModeToast'
 import Footer from '@/app/components/Footer'
 import Header from '@/app/components/Header'
 import Marquee from '@/app/components/Marquee'
+import MobileMenu from '@/app/components/MobileMenu'
 import * as demo from '@/sanity/lib/demo'
 import {sanityFetch, SanityLive} from '@/sanity/lib/live'
 import {settingsQuery} from '@/sanity/lib/queries'
@@ -92,14 +93,17 @@ export default async function RootLayout({children}: {children: React.ReactNode}
                 <img
                   src="/images/logo-color.png"
                   alt="Logo"
-                  className="h-20 w-auto mr-6"
+                  className="h-20 w-auto mr-6 -ml-6 md:ml-0"
                 />
               </Link>
-              <div className="flex gap-10 text-lg">
+              {/* Desktop Navigation */}
+              <div className="hidden md:flex gap-10 text-lg">
                 <Link href="/">Home</Link>
-                <Link href="/werk">Werk</Link>
+                <Link href="/disciplines">Werk</Link>
                 <Link href="/contact">Contact</Link>
               </div>
+              {/* Mobile Navigation */}
+              <MobileMenu />
             </nav>
           </div>
           <main className="flex-1 min-h-0">{children}</main>
