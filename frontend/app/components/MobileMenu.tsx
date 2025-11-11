@@ -157,45 +157,36 @@ export default function MobileMenu() {
       {/* Mobile Menu Panel */}
       <div
         ref={menuRef}
-        className="fixed top-0 right-0 h-screen w-4/5 max-w-sm bg-primary z-40 translate-x-full"
+        className="fixed top-0 right-0 h-screen w-4/5 max-w-sm bg-primary z-40 translate-x-full font-light"
         style={{transform: 'translateX(100%)'}}
       >
-        <nav className="flex flex-col items-start justify-center h-full px-12 gap-10">
-          <div className="overflow-hidden">
-            <Link
-              href="/"
-              onClick={closeMenu}
-              ref={(el) => {
-                if (el) menuItemsRef.current[0] = el
-              }}
-              className="text-white text-5xl font-bold uppercase tracking-tight hover:opacity-80 transition-opacity font-barlow opacity-0"
-            >
-              Home
-            </Link>
-          </div>
-          <div className="overflow-hidden">
-            <Link
-              href="/disciplines"
-              onClick={closeMenu}
-              ref={(el) => {
-                if (el) menuItemsRef.current[1] = el
-              }}
-              className="text-white text-5xl font-bold uppercase tracking-tight hover:opacity-80 transition-opacity font-barlow opacity-0"
-            >
-              Werk
-            </Link>
-          </div>
-          <div className="overflow-hidden">
-            <Link
-              href="/contact"
-              onClick={closeMenu}
-              ref={(el) => {
-                if (el) menuItemsRef.current[2] = el
-              }}
-              className="text-white text-5xl font-bold uppercase tracking-tight hover:opacity-80 transition-opacity font-barlow opacity-0"
-            >
-              Contact
-            </Link>
+        <nav className="flex flex-col justify-center items-start h-full px-12">
+          {/* Contact Information */}
+          <div className="text-white text-sm space-y-1">
+            <p>Algemeen</p>
+            <p>
+              <a href="tel:0205707875" className="text-white font-bold hover:opacity-80">
+                020 570 78 75
+              </a>
+            </p>
+            <p>Rogier | Operations manager</p>
+            <p>
+              <a href="tel:0651178778" className="text-white font-bold hover:opacity-80">
+                06 51 17 87 78
+              </a>
+            </p>
+            <p>
+              <a href="mailto:projects@otherwise.amsterdam" className="text-white font-bold hover:opacity-80">
+                projects@otherwise.amsterdam
+              </a>
+            </p>
+
+            <div className="pt-4">
+              <p className="font-semibold">Adres</p>
+              <p>Raadhuisstraat 15</p>
+              <p>3e verdieping</p>
+              <p>1016 DB Amsterdam</p>
+            </div>
           </div>
         </nav>
       </div>

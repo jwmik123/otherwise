@@ -193,18 +193,30 @@ export default function InfiniteSlider({
 
     // Touch handlers
     let touchStartX = 0;
+    let touchStartY = 0;
 
     const handleTouchStart = (e: TouchEvent) => {
       touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
     };
 
     const handleTouchMove = (e: TouchEvent) => {
       const touchCurrentX = e.touches[0].clientX;
-      const diff = touchStartX - touchCurrentX;
-      targetXRef.current -= diff * 1.5;
-      touchStartX = touchCurrentX;
+      const touchCurrentY = e.touches[0].clientY;
 
-      scrollVelocityRef.current = Math.abs(diff * 1.5);
+      // Calculate differences for both axes
+      const diffX = touchStartX - touchCurrentX;
+      const diffY = touchStartY - touchCurrentY;
+
+      // Use vertical swipes to control horizontal movement
+      // Combine both horizontal and vertical movements for total effect
+      const totalDiff = diffX + diffY;
+
+      targetXRef.current -= totalDiff * 4.5;
+      touchStartX = touchCurrentX;
+      touchStartY = touchCurrentY;
+
+      scrollVelocityRef.current = Math.abs(totalDiff * 4.5);
       animateScale(scrollVelocityRef.current);
     };
 
@@ -253,7 +265,7 @@ export default function InfiniteSlider({
   }
 
   return (
-    <div className="relative w-full overflow-hidden">
+    <div className="relative w-full overflow-hidden" data-slider>
       {showVelocity && (
         <div className="absolute top-5 left-5 bg-black/50 px-4 py-3 rounded-lg text-sm z-10">
           <div>Scroll horizontally (or use mousewheel)</div>

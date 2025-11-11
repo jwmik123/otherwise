@@ -28,6 +28,31 @@ export default function HomePage({ disciplines }: HomePageProps) {
   const [sliderWidth, setSliderWidth] = useState(550)
 
   useEffect(() => {
+    // Prevent all scrolling and pull-to-refresh on the homepage
+    const preventScroll = (e: TouchEvent) => {
+      // Allow touch events on the slider
+      const target = e.target as HTMLElement
+      if (target.closest('[data-slider]')) {
+        return
+      }
+      e.preventDefault()
+    }
+
+    // Prevent touchmove events (iOS pull-to-refresh and overscroll)
+    document.body.addEventListener('touchmove', preventScroll, { passive: false })
+
+    // Prevent overscroll/bounce effect
+    document.body.style.overscrollBehavior = 'none'
+    document.documentElement.style.overscrollBehavior = 'none'
+
+    return () => {
+      document.body.removeEventListener('touchmove', preventScroll)
+      document.body.style.overscrollBehavior = ''
+      document.documentElement.style.overscrollBehavior = ''
+    }
+  }, [])
+
+  useEffect(() => {
     // Initialize custom cursor
     gsap.set('.cursor', { xPercent: -50, yPercent: -50 })
 

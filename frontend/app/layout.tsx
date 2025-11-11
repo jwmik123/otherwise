@@ -8,10 +8,11 @@ import {VisualEditing, toPlainText} from 'next-sanity'
 import {Toaster} from 'sonner'
 
 import DraftModeToast from '@/app/components/DraftModeToast'
-import Footer from '@/app/components/Footer'
-import Header from '@/app/components/Header'
+import ViewportHeightFix from '@/app/components/ViewportHeightFix'
+
 import Marquee from '@/app/components/Marquee'
 import MobileMenu from '@/app/components/MobileMenu'
+import ContactPanel from '@/app/components/ContactPanel'
 import * as demo from '@/sanity/lib/demo'
 import {sanityFetch, SanityLive} from '@/sanity/lib/live'
 import {settingsQuery} from '@/sanity/lib/queries'
@@ -29,7 +30,7 @@ export async function generateMetadata(): Promise<Metadata> {
     // Metadata should never contain stega
     stega: false,
   })
-  const title = settings?.title || demo.title
+  const title = settings?.title
   const description = settings?.description || demo.description
 
   const ogImage = resolveOpenGraphImage(settings?.ogImage)
@@ -44,8 +45,8 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     metadataBase,
     title: {
-      template: `%s | ${title}`,
-      default: title,
+      template: `%s | Otherwise`,
+      default: "Otherwise",
     },
     description: toPlainText(description),
     openGraph: {
@@ -73,8 +74,9 @@ export default async function RootLayout({children}: {children: React.ReactNode}
   return (
     <html lang="en" className={`${inter.variable} ${barlow.variable} bg-white`}>
       <body className="overflow-hidden">
+        <ViewportHeightFix />
         <div className="cursor"></div>
-        <section className="h-screen flex flex-col overflow-hidden">
+        <section className="flex flex-col overflow-hidden" style={{height: 'var(--app-height)'}}>
           {/* The <Toaster> component is responsible for rendering toast notifications used in /app/client-utils.ts and /app/components/DraftModeToast.tsx */}
           <Toaster />
           {isDraftMode && (
@@ -98,9 +100,7 @@ export default async function RootLayout({children}: {children: React.ReactNode}
               </Link>
               {/* Desktop Navigation */}
               <div className="hidden md:flex gap-10 text-lg">
-                <Link href="/">Home</Link>
-                <Link href="/disciplines">Werk</Link>
-                <Link href="/contact">Contact</Link>
+                <ContactPanel />
               </div>
               {/* Mobile Navigation */}
               <MobileMenu />

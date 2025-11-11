@@ -63,6 +63,25 @@ body:has( [data-cursor]:hover) .cursor{
   }
 }
 
+/* Mobile viewport height fix for browser UI */
+:root {
+  --app-height: 100vh;
+}
+
+@supports (height: 100dvh) {
+  :root {
+    --app-height: 100dvh;
+  }
+}
+
+/* Prevent overscroll/bounce on mobile */
+html, body {
+  overscroll-behavior: none;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+}
+
 @keyframes marquee {
   0% {
     transform: translateX(0);
