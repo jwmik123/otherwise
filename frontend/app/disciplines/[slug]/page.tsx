@@ -55,7 +55,9 @@ export default async function DisciplinePage({params}: Props) {
         {/* Image Gallery */}
         {discipline.images && discipline.images.length > 0 && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-16">
-            {discipline.images.map((image: any, index: number) => (
+            {discipline.images
+              .filter((image: any) => image?.asset)
+              .map((image: any, index: number) => (
               <div key={index} className="relative rounded-lg overflow-hidden aspect-[4/3]">
                 <Image
                   src={urlFor(image).width(1200).height(900).fit('crop').url()}
