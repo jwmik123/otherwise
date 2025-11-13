@@ -189,6 +189,7 @@ export type Settings = {
     _type: 'block'
     _key: string
   }>
+  marqueeText?: string
   ogImage?: {
     asset?: {
       _ref: string
@@ -609,6 +610,7 @@ export type SettingsQueryResult = {
     _type: 'block'
     _key: string
   }>
+  marqueeText?: string
   ogImage?: {
     asset?: {
       _ref: string
