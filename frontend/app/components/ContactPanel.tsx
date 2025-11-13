@@ -133,9 +133,8 @@ export default function ContactPanel() {
 
             <div className="pt-4">
               <p className="font-semibold">Adres</p>
-              <p>Raadhuisstraat 15</p>
-              <p>3e verdieping</p>
-              <p>1016 DB Amsterdam</p>
+              <p>Meeuwenlaan 98-100</p>
+              <p>1021 JL Amsterdam</p>
             </div>
           </div>
         </div>

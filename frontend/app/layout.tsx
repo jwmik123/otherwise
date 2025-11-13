@@ -33,6 +33,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const title = settings?.title
   const description = settings?.description || demo.description
 
+
   const ogImage = resolveOpenGraphImage(settings?.ogImage)
   let metadataBase: URL | undefined = undefined
   try {
@@ -70,12 +71,15 @@ const barlow = Barlow({
 
 export default async function RootLayout({children}: {children: React.ReactNode}) {
   const {isEnabled: isDraftMode} = await draftMode()
+  const {data: settings} = await sanityFetch({
+    query: settingsQuery,
+  })
 
   return (
     <html lang="en" className={`${inter.variable} ${barlow.variable} bg-white`}>
       <body className="overflow-hidden">
         <ViewportHeightFix />
-        <div className="cursor"></div>
+        {/* <div className="cursor"></div> */}
         <section className="flex flex-col overflow-hidden" style={{height: 'var(--app-height)'}}>
           {/* The <Toaster> component is responsible for rendering toast notifications used in /app/client-utils.ts and /app/components/DraftModeToast.tsx */}
           <Toaster />
@@ -88,7 +92,7 @@ export default async function RootLayout({children}: {children: React.ReactNode}
           )}
           {/* The <SanityLive> component is responsible for making all sanityFetch calls in your application live, so should always be rendered. */}
           <SanityLive onError={handleError} />
-          <Marquee text="Nu €50 korting met de the otherprice days" />
+          <Marquee text={settings?.marqueeText as string} />
           <div className="flex-shrink-0 px-8 py-8">
             <nav className="flex items-center justify-between text-sm font-medium">
               <Link href="/" className="flex items-center">

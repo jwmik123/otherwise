@@ -16,7 +16,7 @@ export const settings = defineType({
   fields: [
     defineField({
       name: 'title',
-      description: 'This field is the title of your blog.',
+      description: 'This field is the title of your site.',
       title: 'Title',
       type: 'string',
       initialValue: demo.title,
@@ -110,6 +110,14 @@ export const settings = defineType({
           },
         }),
       ],
+    }),
+    defineField({
+      name: 'marqueeText',
+      title: 'Marquee Text',
+      description: 'Text displayed in the scrolling marquee banner',
+      type: 'string',
+      initialValue: 'Welcome to our site',
+      validation: (rule) => rule.required(),
     }),
     defineField({
       name: 'ogImage',

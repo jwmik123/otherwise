@@ -32,7 +32,7 @@ export default function InfiniteSlider({
   items = [],
   gap = 48,
   showVelocity = false,
-  heightPercentage = 30,
+  heightPercentage = 25,
   aspectRatio = 16 / 9,
 }: InfiniteSliderProps) {
   const [itemHeight, setItemHeight] = useState(0);
@@ -46,11 +46,43 @@ export default function InfiniteSlider({
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const hasAnimatedRef = useRef(false);
   const scrollVelocityRef = useRef(0);
+  const autoScrollSpeedRef = useRef(0.3); // Slow automatic scroll speed
+
+  // Define the desired order
+  const desiredOrder = [
+    'infographics',
+    'campagnes',
+    'fotografie',
+    'direct-mailings',
+    'verpakkingen',
+    'brochures',
+    'beursmaterialen',
+    'online'
+  ];
+
+  // Memoize sorted items based on desired order
+  const sortedItems = useMemo(() => {
+    return [...items].sort((a, b) => {
+      const indexA = desiredOrder.indexOf(a.slug.current);
+      const indexB = desiredOrder.indexOf(b.slug.current);
+
+      // If both items are in the desired order, sort by their position
+      if (indexA !== -1 && indexB !== -1) {
+        return indexA - indexB;
+      }
+      // If only A is in the desired order, it comes first
+      if (indexA !== -1) return -1;
+      // If only B is in the desired order, it comes first
+      if (indexB !== -1) return 1;
+      // If neither is in the desired order, maintain original order
+      return 0;
+    });
+  }, [items]);
 
   // Memoize tripled items array
-  const tripledItems = useMemo(() => 
-    [...items, ...items, ...items], 
-    [items]
+  const tripledItems = useMemo(() =>
+    [...sortedItems, ...sortedItems, ...sortedItems],
+    [sortedItems]
   );
 
   // Update dimensions with debouncing
@@ -115,10 +147,10 @@ export default function InfiniteSlider({
 
   useEffect(() => {
     const sliderWrapper = sliderWrapperRef.current;
-    if (!sliderWrapper || items.length === 0 || itemHeight === 0) return;
+    if (!sliderWrapper || sortedItems.length === 0 || itemHeight === 0) return;
 
     const itemTotalWidth = itemWidth + gap;
-    const singleSetWidth = items.length * itemTotalWidth;
+    const singleSetWidth = sortedItems.length * itemTotalWidth;
 
     // Set initial state only once
     if (!hasAnimatedRef.current) {
@@ -128,6 +160,9 @@ export default function InfiniteSlider({
 
     // Animation loop with requestAnimationFrame
     const animate = () => {
+      // Apply automatic scrolling continuously
+      targetXRef.current -= autoScrollSpeedRef.current;
+
       currentXRef.current += (targetXRef.current - currentXRef.current) * 0.06;
 
       // Infinite loop logic
@@ -289,7 +324,7 @@ export default function InfiniteSlider({
       document.removeEventListener('touchmove', handleTouchMove);
       document.removeEventListener('touchend', handleTouchEnd);
     };
-  }, [items.length, itemWidth, gap, itemHeight, showVelocity, animateScale, resetScale]);
+  }, [sortedItems.length, itemWidth, gap, itemHeight, showVelocity, animateScale, resetScale]);
 
   if (items.length === 0) {
     return (
@@ -324,7 +359,7 @@ export default function InfiniteSlider({
             }}
           >
             <div className="pb-4">
-              <h3 className="item-title text-[clamp(0.875rem,1.5vw,1.125rem)] pl-3 -mb-1 tracking-tight opacity-0">
+              <h3 className="item-title text-[clamp(1rem,1.5vw,1.1rem)] pl-4 -mb-1 tracking-tight opacity-0">
                 {item.title}
               </h3>
             </div>

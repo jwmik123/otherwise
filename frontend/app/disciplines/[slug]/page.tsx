@@ -40,8 +40,8 @@ export default async function DisciplinePage({params}: Props) {
   return (
     <div className="h-full overflow-y-auto">
 
-      <div className="relative w-full bg-primary px-12 py-4 sticky top-0 z-10">
-        <h1 className="text-[clamp(1.5rem,5vw,2.5rem)] text-white font-bold tracking-tight">{discipline.title}</h1>
+      <div className="relative w-full bg-primary px-12 py-1 sticky top-0 z-10">
+        <h1 className="text-[clamp(1.5rem,4vw,2rem)] text-white font-bold tracking-tight">{discipline.title}</h1>
       </div>
 
       {/* Content */}
