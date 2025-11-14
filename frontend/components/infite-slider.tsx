@@ -35,7 +35,7 @@ export default function InfiniteSlider({
   heightPercentage = 25,
   aspectRatio = 16 / 9,
 }: InfiniteSliderProps) {
-  const [itemHeight, setItemHeight] = useState(0);
+  const [itemHeight, setItemHeight] = useState(300);
   const [itemWidth, setItemWidth] = useState(0);
 
   const sliderWrapperRef = useRef<HTMLDivElement>(null);

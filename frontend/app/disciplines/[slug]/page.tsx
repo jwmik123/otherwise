@@ -1,10 +1,11 @@
 import {notFound} from 'next/navigation'
 import Image from 'next/image'
 import PortableText from '@/app/components/PortableText'
-import {disciplineQuery, disciplinesSlugs} from '@/sanity/lib/queries'
+import {disciplineQuery, disciplinesSlugs, getPageQuery} from '@/sanity/lib/queries'
 import {sanityFetch} from '@/sanity/lib/live'
 import imageUrlBuilder from '@sanity/image-url'
 import {client} from '@/sanity/lib/client'
+import { Metadata } from 'next'
 
 const builder = imageUrlBuilder(client)
 
@@ -26,6 +27,24 @@ export async function generateStaticParams() {
   return slugs
 }
 
+/**
+ * Generate metadata for the page.
+ * Learn more: https://nextjs.org/docs/app/api-reference/functions/generate-metadata#generatemetadata-function
+ */
+export async function generateMetadata(props: Props): Promise<Metadata> {
+  const params = await props.params
+  const {data: discipline} = await sanityFetch({
+    query: disciplineQuery,
+    params,
+    // Metadata should never contain stega
+    stega: false,
+  })
+
+  return {
+    title: discipline?.title,
+  } satisfies Metadata
+}
+
 export default async function DisciplinePage({params}: Props) {
   const {slug} = await params
   const {data: discipline} = await sanityFetch({
@@ -40,8 +59,8 @@ export default async function DisciplinePage({params}: Props) {
   return (
     <div className="h-full overflow-y-auto">
 
-      <div className="relative w-full bg-primary px-12 py-1 sticky top-0 z-10">
-        <h1 className="text-[clamp(1.5rem,4vw,2rem)] text-white font-bold tracking-tight">{discipline.title}</h1>
+      <div className="relative w-full bg-primary px-8 py-1 sticky top-0 z-10">
+        <h1 className="text-[clamp(1.5rem,4vw,2rem)] text-white font-bold tracking-tight -ml-6 md:ml-0">{discipline.title}</h1>
       </div>
 
       {/* Content */}

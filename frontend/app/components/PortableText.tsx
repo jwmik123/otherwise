@@ -78,6 +78,16 @@ export default function CustomPortableText({
       link: ({children, value: link}) => {
         return <ResolvedLink link={link}>{children}</ResolvedLink>
       },
+      fontSize: ({children, value}) => {
+        const sizeClasses = {
+          small: 'text-[0.875rem]',
+          normal: 'text-[1rem]',
+          large: 'text-[1.25rem]',
+          xlarge: 'text-[1.5rem]',
+        }
+        const sizeClass = sizeClasses[value?.size as keyof typeof sizeClasses] || sizeClasses.normal
+        return <span className={sizeClass}>{children}</span>
+      },
     },
   }
 

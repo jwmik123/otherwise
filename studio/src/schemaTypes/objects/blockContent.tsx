@@ -89,6 +89,26 @@ export const blockContent = defineType({
               }),
             ],
           },
+          {
+           type: 'object',
+           name: 'fontSize',
+           title: 'Font Size',
+           fields: [
+            {
+              name: 'size',
+              type: 'string',
+              title: 'Size',
+              options: {
+                list: [
+                  {title: 'Small', value: 'small'},
+                  {title: 'Normal', value: 'normal'},
+                  {title: 'Large', value: 'large'},
+                  {title: 'Extra Large', value: 'xlarge'}
+                ]
+              }
+            }
+          ]
+          },
         ],
       },
     }),

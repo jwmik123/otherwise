@@ -93,13 +93,13 @@ export default async function RootLayout({children}: {children: React.ReactNode}
           {/* The <SanityLive> component is responsible for making all sanityFetch calls in your application live, so should always be rendered. */}
           <SanityLive onError={handleError} />
           <Marquee text={settings?.marqueeText as string} />
-          <div className="flex-shrink-0 px-8 py-8">
+          <div className="flex-shrink-0 px-8 py-4 md:py-6">
             <nav className="flex items-center justify-between text-sm font-medium">
               <Link href="/" className="flex items-center">
                 <img
                   src="/images/logo-color.png"
                   alt="Logo"
-                  className="h-20 w-auto mr-6 -ml-6 md:ml-0"
+                  className="h-16 w-auto -ml-6 md:ml-0"
                 />
               </Link>
               {/* Desktop Navigation */}

@@ -5,6 +5,7 @@ import {useEffect, useRef, useState} from 'react'
 import {gsap} from 'gsap'
 import {SplitText} from 'gsap/SplitText'
 import Image from 'next/image'
+import Link from 'next/link'
 
 gsap.registerPlugin(SplitText)
 
@@ -26,10 +27,13 @@ interface HomePageProps {
 
 export default function HomePage({ disciplines }: HomePageProps) {
   const textContainerRef = useRef<HTMLDivElement>(null)
+  const homePageRef = useRef<HTMLDivElement>(null)
   const [sliderWidth, setSliderWidth] = useState(550)
 
   useEffect(() => {
-    // Prevent all scrolling and pull-to-refresh on the homepage
+    if (!homePageRef.current) return
+
+    // Prevent all scrolling and pull-to-refresh on the homepage only
     const preventScroll = (e: TouchEvent) => {
       // Allow touch events on the slider
       const target = e.target as HTMLElement
@@ -39,35 +43,34 @@ export default function HomePage({ disciplines }: HomePageProps) {
       e.preventDefault()
     }
 
-    // Prevent touchmove events (iOS pull-to-refresh and overscroll)
-    document.body.addEventListener('touchmove', preventScroll, { passive: false })
+    // Apply event listener only to the homepage container
+    const homePageElement = homePageRef.current
+    homePageElement.addEventListener('touchmove', preventScroll, { passive: false })
 
-    // Prevent overscroll/bounce effect
-    document.body.style.overscrollBehavior = 'none'
-    document.documentElement.style.overscrollBehavior = 'none'
+    // Prevent overscroll/bounce effect only on the homepage container
+    homePageElement.style.overscrollBehavior = 'none'
 
     return () => {
-      document.body.removeEventListener('touchmove', preventScroll)
-      document.body.style.overscrollBehavior = ''
-      document.documentElement.style.overscrollBehavior = ''
+      homePageElement.removeEventListener('touchmove', preventScroll)
+      homePageElement.style.overscrollBehavior = ''
     }
   }, [])
 
-  useEffect(() => {
-    // Initialize custom cursor
-    gsap.set('.cursor', { xPercent: -50, yPercent: -50 })
+  // useEffect(() => {
+  //   // Initialize custom cursor
+  //   gsap.set('.cursor', { xPercent: -50, yPercent: -50 })
 
-    const xTo = gsap.quickTo('.cursor', 'x', { duration: 0.6, ease: 'power3' })
-    const yTo = gsap.quickTo('.cursor', 'y', { duration: 0.6, ease: 'power3' })
+  //   const xTo = gsap.quickTo('.cursor', 'x', { duration: 0.6, ease: 'power3' })
+  //   const yTo = gsap.quickTo('.cursor', 'y', { duration: 0.6, ease: 'power3' })
 
-    const handleMouseMove = (e: MouseEvent) => {
-      xTo(e.clientX)
-      yTo(e.clientY)
-    }
+  //   const handleMouseMove = (e: MouseEvent) => {
+  //     xTo(e.clientX)
+  //     yTo(e.clientY)
+  //   }
 
-    window.addEventListener('mousemove', handleMouseMove)
-    return () => window.removeEventListener('mousemove', handleMouseMove)
-  }, [])
+  //   window.addEventListener('mousemove', handleMouseMove)
+  //   return () => window.removeEventListener('mousemove', handleMouseMove)
+  // }, [])
 
   useEffect(() => {
     // Set initial width
@@ -149,7 +152,7 @@ export default function HomePage({ disciplines }: HomePageProps) {
 
   return (
 
-    <div className="h-full flex flex-col overflow-hidden overflow-x-visible">
+    <div ref={homePageRef} className="h-full flex flex-col overflow-hidden overflow-x-visible">
 
       <div className="flex-shrink-0 pt-8">
         <InfiniteSlider items={disciplines} />
@@ -188,14 +191,16 @@ export default function HomePage({ disciplines }: HomePageProps) {
           <p className="text-[clamp(0.575rem,1vw,0.9rem)] opacity-0 animate-text pb-2">
           Otherwise is een no-nonsense creatieve studio waar strategie, design en realisatie samenkomen. Van concept tot uitvoering maken wij alles wat merken laat stralen, snel, secuur en met oog voor detail. We houden van korte lijnen, duidelijkheid en een goed resultaat waar iedereen blij van wordt. In plaats van snel scoren richten we ons op duurzame relaties en langdurige resultaten.
           </p>
-          <p className="font-bold">Creatieve oplossingen en sterke communicatie</p>
+          <p className="font-bold animate-text">Creatieve oplossingen en sterke communicatie</p>
           
           <p className="text-[clamp(0.575rem,1vw,0.9rem)] opacity-0 animate-text">
 Bij Otherwise geloven we dat elk vraagstuk een creatieve oplossing heeft. Of je nu op zoek bent naar een opvallend verpakkingsontwerp, een effectieve direct mail campagne of een sterk communicatie­­middel dat echt opvalt. Wij zorgen dat jouw merk overal opvalt en indruk maakt. Van flyer tot insert en van brochure tot online banner, we vertalen elk idee moeiteloos naar print en digitaal. Zo blijft je merk herkenbaar, krachtig en zichtbaar op elk kanaal, van de brievenbus tot het beeldscherm.</p>
 
         </div>
         <div className="w-full lg:w-1/3 flex items-center justify-center">
-          <Image src="/images/Otherprice-days.webp" alt="Otherwise" width={500} height={500} className="w-full max-w-44 md:max-w-72 h-auto object-cover" />
+        <Link href="/otherprice-days" className="max-w-44 md:max-w-72 h-auto -mt-12">
+          <Image src="/images/Otherprice-days.webp" alt="Otherwise" width={500} height={500} className="object-cover" />
+          </Link>
         </div>
        
         
