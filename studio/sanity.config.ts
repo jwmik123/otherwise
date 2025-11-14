@@ -32,12 +32,17 @@ const homeLocation = {
 
 // resolveHref() is a convenience function that resolves the URL
 // path for different document types and used in the presentation tool.
-function resolveHref(documentType?: string, slug?: string): string | undefined {
+function resolveHref(documentType?: string, slug?: string, useDirectSlug?: boolean): string | undefined {
   switch (documentType) {
     case 'post':
       return slug ? `/posts/${slug}` : undefined
     case 'page':
       return slug ? `/${slug}` : undefined
+    case 'discipline':
+      if (useDirectSlug) {
+        return slug ? `/${slug}` : undefined
+      }
+      return slug ? `/disciplines/${slug}` : undefined
     default:
       console.warn('Invalid document type:', documentType)
       return undefined
@@ -69,8 +74,12 @@ export default defineConfig({
             filter: `_type == "settings" && _id == "siteSettings"`,
           },
           {
+            route: '/disciplines/:slug',
+            filter: `_type == "discipline" && slug.current == $slug && useDirectSlug != true`,
+          },
+          {
             route: '/:slug',
-            filter: `_type == "page" && slug.current == $slug || _id == $slug`,
+            filter: `_type == "page" && slug.current == $slug || _type == "discipline" && slug.current == $slug && useDirectSlug == true || _id == $slug`,
           },
           {
             route: '/posts/:slug',
@@ -113,6 +122,21 @@ export default defineConfig({
                   title: 'Home',
                   href: '/',
                 } satisfies DocumentLocation,
+              ].filter(Boolean) as DocumentLocation[],
+            }),
+          }),
+          discipline: defineLocations({
+            select: {
+              title: 'title',
+              slug: 'slug.current',
+              useDirectSlug: 'useDirectSlug',
+            },
+            resolve: (doc) => ({
+              locations: [
+                {
+                  title: doc?.title || 'Untitled',
+                  href: resolveHref('discipline', doc?.slug, doc?.useDirectSlug)!,
+                },
               ].filter(Boolean) as DocumentLocation[],
             }),
           }),

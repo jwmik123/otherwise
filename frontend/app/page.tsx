@@ -16,6 +16,7 @@ export default async function Page() {
     _id: discipline._id,
     title: discipline.title,
     slug: discipline.slug,
+    useDirectSlug: discipline.useDirectSlug,
     coverImage: {
       url: builder.image(discipline.coverImage).width(800).height(480).fit('crop').url(),
       alt: discipline.coverImage.alt,

@@ -18,6 +18,7 @@ interface DisciplineItem {
     url: string;
     alt?: string;
   };
+  useDirectSlug?: boolean;
 }
 
 interface InfiniteSliderProps {
@@ -351,7 +352,7 @@ export default function InfiniteSlider({
         {tripledItems.map((item, index) => (
           <Link
             key={`${item._id}-${index}`}
-            href={`/disciplines/${item.slug.current}`}
+            href={item.useDirectSlug ? `/${item.slug.current}` : `/disciplines/${item.slug.current}`}
             className="slider-item will-change-transform flex flex-col group"
             style={{
               minWidth: `${itemWidth}px`,

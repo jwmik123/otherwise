@@ -102,6 +102,7 @@ export const allDisciplinesQuery = defineQuery(`
     title,
     slug,
     coverImage,
+    useDirectSlug,
   }
 `)
 
@@ -113,6 +114,7 @@ export const disciplineQuery = defineQuery(`
     coverImage,
     description,
     images,
+    useDirectSlug,
   }
 `)
 

@@ -18,6 +18,7 @@ interface DisciplineItem {
     url: string;
     alt?: string;
   };
+  useDirectSlug?: boolean;
 }
 
 interface SimplifiedHomePageProps {
@@ -106,7 +107,7 @@ export default function SimplifiedHomePage({ disciplines }: SimplifiedHomePagePr
           {disciplines.map((item) => (
             <Link
               key={item._id}
-              href={`/disciplines/${item.slug.current}`}
+              href={item.useDirectSlug ? `/${item.slug.current}` : `/disciplines/${item.slug.current}`}
               className="discipline-item w-full group"
             >
               <div className="relative w-full overflow-hidden rounded-lg" style={{ aspectRatio: '5/3' }}>

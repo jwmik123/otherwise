@@ -848,7 +848,7 @@ export type PagesSlugsResult = Array<{
   slug: string | null
 }>
 // Variable: allDisciplinesQuery
-// Query: *[_type == "discipline" && defined(slug.current)] | order(_createdAt asc) {    _id,    title,    slug,    coverImage,  }
+// Query: *[_type == "discipline" && defined(slug.current)] | order(_createdAt asc) {    _id,    title,    slug,    coverImage,    useDirectSlug,  }
 export type AllDisciplinesQueryResult = Array<{
   _id: string
   title: string | null
@@ -866,9 +866,10 @@ export type AllDisciplinesQueryResult = Array<{
     alt?: string
     _type: 'image'
   } | null
+  useDirectSlug: null
 }>
 // Variable: disciplineQuery
-// Query: *[_type == "discipline" && slug.current == $slug] [0] {    _id,    title,    slug,    coverImage,    description,    images,  }
+// Query: *[_type == "discipline" && slug.current == $slug] [0] {    _id,    title,    slug,    coverImage,    description,    images,    useDirectSlug,  }
 export type DisciplineQueryResult = {
   _id: string
   title: string | null
@@ -902,6 +903,7 @@ export type DisciplineQueryResult = {
     _type: 'image'
     _key: string
   }> | null
+  useDirectSlug: null
 } | null
 // Variable: disciplinesSlugs
 // Query: *[_type == "discipline" && defined(slug.current)]  {"slug": slug.current}
@@ -921,8 +923,8 @@ declare module '@sanity/client' {
     '\n  *[_type == "post" && slug.current == $slug] [0] {\n    content[]{\n    ...,\n    markDefs[]{\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n    }\n  },\n    \n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  excerpt,\n  coverImage,\n  "date": coalesce(date, _updatedAt),\n  "author": author->{firstName, lastName, picture},\n\n  }\n': PostQueryResult
     '\n  *[_type == "post" && defined(slug.current)]\n  {"slug": slug.current}\n': PostPagesSlugsResult
     '\n  *[_type == "page" && defined(slug.current)]\n  {"slug": slug.current}\n': PagesSlugsResult
-    '\n  *[_type == "discipline" && defined(slug.current)] | order(_createdAt asc) {\n    _id,\n    title,\n    slug,\n    coverImage,\n  }\n': AllDisciplinesQueryResult
-    '\n  *[_type == "discipline" && slug.current == $slug] [0] {\n    _id,\n    title,\n    slug,\n    coverImage,\n    description,\n    images,\n  }\n': DisciplineQueryResult
+    '\n  *[_type == "discipline" && defined(slug.current)] | order(_createdAt asc) {\n    _id,\n    title,\n    slug,\n    coverImage,\n    useDirectSlug,\n  }\n': AllDisciplinesQueryResult
+    '\n  *[_type == "discipline" && slug.current == $slug] [0] {\n    _id,\n    title,\n    slug,\n    coverImage,\n    description,\n    images,\n    useDirectSlug,\n  }\n': DisciplineQueryResult
     '\n  *[_type == "discipline" && defined(slug.current)]\n  {"slug": slug.current}\n': DisciplinesSlugsResult
   }
 }

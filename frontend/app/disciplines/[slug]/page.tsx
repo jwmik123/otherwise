@@ -59,7 +59,7 @@ export default async function DisciplinePage({params}: Props) {
   return (
     <div className="h-full overflow-y-auto">
 
-      <div className="relative w-full bg-primary px-8 py-1 sticky top-0 z-10">
+      <div className="relative w-full bg-primary px-12 md:px-10 py-1 sticky top-0 z-10">
         <h1 className="text-[clamp(1.5rem,4vw,2rem)] text-white font-bold tracking-tight -ml-6 md:ml-0">{discipline.title}</h1>
       </div>
 

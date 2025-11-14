@@ -30,6 +30,13 @@ export const discipline = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
+      name: 'useDirectSlug',
+      title: 'Use Direct URL',
+      type: 'boolean',
+      description: 'When checked, the discipline will be accessible directly at /{slug} instead of /disciplines/{slug}',
+      initialValue: false,
+    }),
+    defineField({
       name: 'coverImage',
       title: 'Cover Image',
       type: 'image',
