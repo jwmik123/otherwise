@@ -5,7 +5,8 @@ import {disciplineQuery, disciplinesSlugs, getPageQuery} from '@/sanity/lib/quer
 import {sanityFetch} from '@/sanity/lib/live'
 import imageUrlBuilder from '@sanity/image-url'
 import {client} from '@/sanity/lib/client'
-import { Metadata } from 'next'
+import {Metadata} from 'next'
+import GoBackButton from '@/app/components/GoBackButton'
 
 const builder = imageUrlBuilder(client)
 
@@ -59,17 +60,21 @@ export default async function DisciplinePage({params}: Props) {
   return (
     <div className="h-full overflow-y-auto">
 
-      <div className="relative w-full bg-primary px-12 md:px-10 py-1 sticky top-0 z-10">
-        <h1 className="text-[clamp(1.5rem,4vw,2rem)] text-white font-bold tracking-tight -ml-6 md:ml-0">{discipline.title}</h1>
+      <div className="relative w-full bg-primary px-12 md:px-10 pt-1 pb-3 sticky top-0 z-10">
+      
+        <h1 className="text-[clamp(1.5rem,4vw,2rem)] text-white font-bold tracking-tight -ml-6 md:ml-0 mt-2">{discipline.title}</h1>
       </div>
+      <GoBackButton />
 
       {/* Content */}
-      <div className="container mx-auto px-8 md:px-16 py-10">
+      <div className="container mx-auto px-8 md:px-16 md:py-4">
         {discipline.description && (
           <div className="prose prose-lg prose-invert max-w-none mb-16">
             <PortableText value={discipline.description as any} />
           </div>
         )}
+
+        
 
         {/* Image Gallery */}
         {discipline.images && discipline.images.length > 0 && (

@@ -11,6 +11,7 @@ import {GetPageQueryResult} from '@/sanity.types'
 import {PageOnboarding} from '@/app/components/Onboarding'
 import imageUrlBuilder from '@sanity/image-url'
 import {client} from '@/sanity/lib/client'
+import GoBackButton from '@/app/components/GoBackButton'
 
 const builder = imageUrlBuilder(client)
 
@@ -95,21 +96,22 @@ export default async function Page(props: Props) {
         <Head>
           <title>{page.heading}</title>
         </Head>
-        <div className=" sticky top-0 z-10">
+        <div className="sticky top-0 z-10">
           <div className="">
             <div className="pb-6">
               <div className="bg-primary text-white w-full">
-                <div className="relative w-full bg-primary px-12 md:px-10 py-1 sticky top-0 z-10">
-                  <h1 className="text-[clamp(1.5rem,4vw,2rem)] text-white font-bold tracking-tight -ml-6 md:ml-0">{page.heading}</h1>
+                <div className="relative w-full bg-primary px-12 md:px-10 pt-1 pb-3 sticky top-0 z-10">
+              
+                  <h1 className="text-[clamp(1.5rem,4vw,2rem)] text-white font-bold tracking-tight -ml-6 md:ml-0 mt-2">{page.heading}</h1>
                 </div>
-                <p className="px-8 mt-4 text-base lg:text-lg leading-relaxed text-gray-200 uppercase font-light -ml-6 md:ml-0">
-                  {page.subheading}
-                </p>
               </div>
+              <GoBackButton />
             </div>
           </div>
         </div>
+      
         <PageBuilderPage page={page as GetPageQueryResult} />
+
       </div>
     )
   }
@@ -121,11 +123,13 @@ export default async function Page(props: Props) {
     // Render the discipline page inline
     return (
       <div className="h-full overflow-y-auto">
-        <div className="relative w-full bg-primary px-12 md:px-10 py-1 sticky top-0 z-10">
-          <h1 className="text-[clamp(1.5rem,4vw,2rem)] text-white font-bold tracking-tight -ml-6 md:ml-0">
+        <div className="relative w-full bg-primary px-12 md:px-10 py-4 sticky top-0 z-10">
+         
+          <h1 className="text-[clamp(1.5rem,4vw,2rem)] text-white font-bold tracking-tight -ml-6 md:ml-0 mt-2">
             {discipline.title}
           </h1>
         </div>
+        <GoBackButton />
 
         {/* Content */}
         <div className="container mx-auto px-8 md:px-16 py-10">

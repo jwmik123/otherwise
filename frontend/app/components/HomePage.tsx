@@ -158,7 +158,7 @@ export default function HomePage({ disciplines }: HomePageProps) {
         <InfiniteSlider items={disciplines} />
       </div>
 
-      <div className="flex-1" />
+      <div className="hidden md:block md:flex-1" />
 
       <div className="flex flex-col lg:flex-row w-full px-8 pb-12 mt-8 md:mt-0 gap-8 flex-shrink-0" ref={textContainerRef}>
       <div  className="w-full lg:w-1/3 flex flex-col gap-2">
@@ -166,7 +166,7 @@ export default function HomePage({ disciplines }: HomePageProps) {
             <p className="animate-text text-xl md:text-[1vw] font-barlow tracking-tight opacity-0 leading-none">Otherwise</p>
           </div>
           <div className="overflow-hidden">
-            <h1 className="animate-text text-4xl md:text-[clamp(1.5rem,5vw,3.5rem)] font-bold text-primary leading-none font-barlow tracking-tight uppercase opacity-0">Anders denken <br /> én anders doen.</h1>
+            <h1 className="animate-text text-[clamp(2rem,10vw,4rem)] font-bold text-primary leading-none font-barlow tracking-tight uppercase opacity-0">Anders denken <br /> én anders doen.</h1>
           </div>
           
           {/* <div className="flex items-center justify-between gap-6 w-full">
@@ -198,7 +198,7 @@ Bij Otherwise geloven we dat elk vraagstuk een creatieve oplossing heeft. Of je 
 
         </div>
         <div className="w-full lg:w-1/3 flex items-center justify-center">
-        <Link href="/otherprice-days" className="max-w-44 md:max-w-72 h-auto -mt-12">
+        <Link href="/otherprice-days" className="max-w-44 md:max-w-72 h-auto">
           <Image src="/images/Otherprice-days.webp" alt="Otherwise" width={500} height={500} className="object-cover" />
           </Link>
         </div>
