@@ -100,12 +100,12 @@ export default async function Page(props: Props) {
           <div className="">
             <div className="pb-6">
               <div className="bg-primary text-white w-full">
-                <div className="relative w-full bg-primary px-12 md:px-10 pt-1 pb-3 sticky top-0 z-10">
-              
-                  <h1 className="text-[clamp(1.5rem,4vw,2rem)] text-white font-bold tracking-tight -ml-6 md:ml-0 mt-2">{page.heading}</h1>
-                </div>
+              <div className="relative flex items-center w-full bg-primary px-5 md:px-10 pb-0 sticky top-0 z-10">
+      <GoBackButton />
+        <h1 className="text-[clamp(1.5rem,4vw,2rem)] text-white font-bold tracking-tight -ml-6 pl-4 md:pl-0 md:ml-0  flex-1">{page.heading}</h1>
+      </div>
               </div>
-              <GoBackButton />
+          
             </div>
           </div>
         </div>

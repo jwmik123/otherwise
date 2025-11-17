@@ -95,7 +95,7 @@ export default function ContactPanel() {
       <button
         ref={buttonRef}
         onClick={togglePanel}
-        className="text-lg cursor-pointer hover:opacity-80 transition-opacity"
+        className="text-lg cursor-pointer hover:opacity-80 transition-all duration-200 hover:text-primary"
         aria-label="Toggle contact panel"
       >
         Contact

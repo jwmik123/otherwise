@@ -99,7 +99,7 @@ export default async function RootLayout({children}: {children: React.ReactNode}
                 <img
                   src="/images/logo-color.png"
                   alt="Logo"
-                  className="h-16 w-auto -ml-6 md:ml-0"
+                  className="h-18 md:h-16 w-auto -ml-6 md:ml-0"
                 />
               </Link>
               {/* Desktop Navigation */}

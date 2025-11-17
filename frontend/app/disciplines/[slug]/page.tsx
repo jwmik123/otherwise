@@ -60,11 +60,11 @@ export default async function DisciplinePage({params}: Props) {
   return (
     <div className="h-full overflow-y-auto">
 
-      <div className="relative w-full bg-primary px-12 md:px-10 pt-1 pb-3 sticky top-0 z-10">
-      
-        <h1 className="text-[clamp(1.5rem,4vw,2rem)] text-white font-bold tracking-tight -ml-6 md:ml-0 mt-2">{discipline.title}</h1>
-      </div>
+      <div className="relative flex items-center w-full bg-primary px-5 md:px-10 pb-0 sticky top-0 z-10">
       <GoBackButton />
+        <h1 className="text-[clamp(1.5rem,4vw,2rem)] text-white font-bold tracking-tight -ml-6 pl-4 md:pl-0 md:ml-0  flex-1">{discipline.title}</h1>
+      </div>
+      
 
       {/* Content */}
       <div className="container mx-auto px-8 md:px-16 md:py-4">

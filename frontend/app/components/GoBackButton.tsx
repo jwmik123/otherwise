@@ -9,11 +9,10 @@ export default function GoBackButton() {
   return (
     <button
       onClick={() => router.back()}
-      className="inline-flex items-center gap-2 text-black/70 px-10 py-4 cursor-pointer hover:font-bold transition-colors duration-200 group"
+      className="text-black/70 pr-5 cursor-pointer hover:font-bold transition-colors duration-200 group"
       aria-label="Go back"
     >
-      <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform duration-200" />
-      <span className="text-sm font-medium">Terug</span>
+      <ArrowLeft className="group-hover:-translate-x-1 transition-transform duration-200 text-white" />
     </button>
   )
 }

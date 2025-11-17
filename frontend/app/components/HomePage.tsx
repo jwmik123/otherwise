@@ -163,10 +163,10 @@ export default function HomePage({ disciplines }: HomePageProps) {
       <div className="flex flex-col lg:flex-row w-full px-8 pb-12 mt-8 md:mt-0 gap-8 flex-shrink-0" ref={textContainerRef}>
       <div  className="w-full lg:w-1/3 flex flex-col gap-2">
           <div className="overflow-hidden">
-            <p className="animate-text text-xl md:text-[1vw] font-barlow tracking-tight opacity-0 leading-none">Otherwise</p>
+            <p className="animate-text text-[clamp(1.3rem,.1vw,1rem)] font-barlow tracking-tight opacity-0 leading-none">Otherwise</p>
           </div>
           <div className="overflow-hidden">
-            <h1 className="animate-text text-[clamp(2rem,10vw,4rem)] font-bold text-primary leading-none font-barlow tracking-tight uppercase opacity-0">Anders denken <br /> én anders doen.</h1>
+            <h1 className="animate-text text-[2.8rem] md:text-[clamp(2rem,5vw,4rem)] font-bold text-primary leading-none font-barlow tracking-tight uppercase opacity-0">Anders denken <br /> én anders doen.</h1>
           </div>
           
           {/* <div className="flex items-center justify-between gap-6 w-full">
@@ -184,16 +184,16 @@ export default function HomePage({ disciplines }: HomePageProps) {
 
         <div className="flex-1"/>
         
-        <div className="w-full lg:w-1/3 hidden lg:block">
+        <div className="w-full lg:w-1/3 hidden lg:block text-[clamp(0.575rem,1vw,0.9rem)] home-text">
         <div className="overflow-hidden">
-            <h3 className="animate-text opacity-0 tracking-tighter font-bold text-[clamp(0.875rem,1.7vw,1.125rem)]">Snel, secuur en altijd een oplossing</h3>
+            <p className="animate-text opacity-0 tracking-tighter font-bold">Snel, secuur en altijd een oplossing</p>
           </div>
-          <p className="text-[clamp(0.575rem,1vw,0.9rem)] opacity-0 animate-text pb-2">
+          <p className="opacity-0 animate-text pb-2">
           Otherwise is een no-nonsense creatieve studio waar strategie, design en realisatie samenkomen. Van concept tot uitvoering maken wij alles wat merken laat stralen, snel, secuur en met oog voor detail. We houden van korte lijnen, duidelijkheid en een goed resultaat waar iedereen blij van wordt. In plaats van snel scoren richten we ons op duurzame relaties en langdurige resultaten.
           </p>
           <p className="font-bold animate-text">Creatieve oplossingen en sterke communicatie</p>
           
-          <p className="text-[clamp(0.575rem,1vw,0.9rem)] opacity-0 animate-text">
+          <p className="opacity-0 animate-text">
 Bij Otherwise geloven we dat elk vraagstuk een creatieve oplossing heeft. Of je nu op zoek bent naar een opvallend verpakkingsontwerp, een effectieve direct mail campagne of een sterk communicatie­­middel dat echt opvalt. Wij zorgen dat jouw merk overal opvalt en indruk maakt. Van flyer tot insert en van brochure tot online banner, we vertalen elk idee moeiteloos naar print en digitaal. Zo blijft je merk herkenbaar, krachtig en zichtbaar op elk kanaal, van de brievenbus tot het beeldscherm.</p>
 
         </div>
