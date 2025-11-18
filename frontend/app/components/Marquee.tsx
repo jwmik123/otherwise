@@ -1,6 +1,7 @@
 'use client'
 
 import { usePathname } from 'next/navigation'
+import Link from 'next/link'
 
 export default function Marquee({text}: {text: string}) {
   const pathname = usePathname()
@@ -19,10 +20,12 @@ export default function Marquee({text}: {text: string}) {
 
   return (
     <div className={`relative overflow-hidden py-2 ${isHomepage ? 'bg-primary text-white' : 'bg-gray-50 text-black'}`}>
+      <Link href="/otherprice-days">
       <div className="flex items-center animate-marquee whitespace-nowrap">
         <MarqueeContent />
         <MarqueeContent />
       </div>
+      </Link>
     </div>
   )
 }

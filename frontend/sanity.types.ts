@@ -15,7 +15,7 @@
 // Source: schema.json
 export type CallToAction = {
   _type: 'callToAction'
-  heading?: string
+  heading: string
   text?: string
   buttonText?: string
   link?: Link
@@ -53,29 +53,49 @@ export type InfoSection = {
     }>
     style?: 'normal' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'blockquote'
     listItem?: 'bullet' | 'number'
-    markDefs?: Array<{
-      linkType?: 'href' | 'page' | 'post'
-      href?: string
-      page?: {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'page'
-      }
-      post?: {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'post'
-      }
-      openInNewTab?: boolean
-      _type: 'link'
-      _key: string
-    }>
+    markDefs?: Array<
+      | {
+          linkType?: 'href' | 'page' | 'post'
+          href?: string
+          page?: {
+            _ref: string
+            _type: 'reference'
+            _weak?: boolean
+            [internalGroqTypeReferenceTo]?: 'page'
+          }
+          post?: {
+            _ref: string
+            _type: 'reference'
+            _weak?: boolean
+            [internalGroqTypeReferenceTo]?: 'post'
+          }
+          openInNewTab?: boolean
+          _type: 'link'
+          _key: string
+        }
+      | {
+          size?: 'small' | 'normal' | 'large' | 'xlarge'
+          _type: 'fontSize'
+          _key: string
+        }
+    >
     level?: number
     _type: 'block'
     _key: string
   }>
+  image?: {
+    asset?: {
+      _ref: string
+      _type: 'reference'
+      _weak?: boolean
+      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+    }
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    alt?: string
+    _type: 'image'
+  }
 }
 
 export type BlockContent = Array<{
@@ -87,25 +107,32 @@ export type BlockContent = Array<{
   }>
   style?: 'normal' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'blockquote'
   listItem?: 'bullet' | 'number'
-  markDefs?: Array<{
-    linkType?: 'href' | 'page' | 'post'
-    href?: string
-    page?: {
-      _ref: string
-      _type: 'reference'
-      _weak?: boolean
-      [internalGroqTypeReferenceTo]?: 'page'
-    }
-    post?: {
-      _ref: string
-      _type: 'reference'
-      _weak?: boolean
-      [internalGroqTypeReferenceTo]?: 'post'
-    }
-    openInNewTab?: boolean
-    _type: 'link'
-    _key: string
-  }>
+  markDefs?: Array<
+    | {
+        linkType?: 'href' | 'page' | 'post'
+        href?: string
+        page?: {
+          _ref: string
+          _type: 'reference'
+          _weak?: boolean
+          [internalGroqTypeReferenceTo]?: 'page'
+        }
+        post?: {
+          _ref: string
+          _type: 'reference'
+          _weak?: boolean
+          [internalGroqTypeReferenceTo]?: 'post'
+        }
+        openInNewTab?: boolean
+        _type: 'link'
+        _key: string
+      }
+    | {
+        size?: 'small' | 'normal' | 'large' | 'xlarge'
+        _type: 'fontSize'
+        _key: string
+      }
+  >
   level?: number
   _type: 'block'
   _key: string
@@ -117,9 +144,10 @@ export type Discipline = {
   _createdAt: string
   _updatedAt: string
   _rev: string
-  title?: string
-  slug?: Slug
-  coverImage?: {
+  title: string
+  slug: Slug
+  useDirectSlug?: boolean
+  coverImage: {
     asset?: {
       _ref: string
       _type: 'reference'
@@ -156,7 +184,7 @@ export type Settings = {
   _createdAt: string
   _updatedAt: string
   _rev: string
-  title?: string
+  title: string
   description?: Array<{
     children?: Array<{
       marks?: Array<string>
@@ -189,7 +217,7 @@ export type Settings = {
     _type: 'block'
     _key: string
   }>
-  marqueeText?: string
+  marqueeText: string
   ogImage?: {
     asset?: {
       _ref: string
@@ -212,9 +240,9 @@ export type Page = {
   _createdAt: string
   _updatedAt: string
   _rev: string
-  name?: string
-  slug?: Slug
-  heading?: string
+  name: string
+  slug: Slug
+  heading: string
   subheading?: string
   pageBuilder?: Array<
     | ({
@@ -232,11 +260,11 @@ export type Post = {
   _createdAt: string
   _updatedAt: string
   _rev: string
-  title?: string
-  slug?: Slug
+  title: string
+  slug: Slug
   content?: BlockContent
   excerpt?: string
-  coverImage?: {
+  coverImage: {
     asset?: {
       _ref: string
       _type: 'reference'
@@ -264,9 +292,9 @@ export type Person = {
   _createdAt: string
   _updatedAt: string
   _rev: string
-  firstName?: string
-  lastName?: string
-  picture?: {
+  firstName: string
+  lastName: string
+  picture: {
     asset?: {
       _ref: string
       _type: 'reference'
@@ -321,7 +349,7 @@ export type SanityAssistOutputField = {
 
 export type SanityAssistInstructionContext = {
   _type: 'sanity.assist.instruction.context'
-  reference?: {
+  reference: {
     _ref: string
     _type: 'reference'
     _weak?: boolean
@@ -354,7 +382,7 @@ export type AssistInstructionContext = {
 
 export type SanityAssistInstructionUserInput = {
   _type: 'sanity.assist.instruction.userInput'
-  message?: string
+  message: string
   description?: string
 }
 
@@ -437,25 +465,25 @@ export type SanityImagePalette = {
 
 export type SanityImageDimensions = {
   _type: 'sanity.imageDimensions'
-  height?: number
-  width?: number
-  aspectRatio?: number
+  height: number
+  width: number
+  aspectRatio: number
 }
 
 export type SanityImageHotspot = {
   _type: 'sanity.imageHotspot'
-  x?: number
-  y?: number
-  height?: number
-  width?: number
+  x: number
+  y: number
+  height: number
+  width: number
 }
 
 export type SanityImageCrop = {
   _type: 'sanity.imageCrop'
-  top?: number
-  bottom?: number
-  left?: number
-  right?: number
+  top: number
+  bottom: number
+  left: number
+  right: number
 }
 
 export type SanityFileAsset = {
@@ -523,7 +551,7 @@ export type Geopoint = {
 
 export type Slug = {
   _type: 'slug'
-  current?: string
+  current: string
   source?: string
 }
 
@@ -577,7 +605,7 @@ export type SettingsQueryResult = {
   _createdAt: string
   _updatedAt: string
   _rev: string
-  title?: string
+  title: string
   description?: Array<{
     children?: Array<{
       marks?: Array<string>
@@ -610,7 +638,7 @@ export type SettingsQueryResult = {
     _type: 'block'
     _key: string
   }>
-  marqueeText?: string
+  marqueeText: string
   ogImage?: {
     asset?: {
       _ref: string
@@ -631,15 +659,15 @@ export type SettingsQueryResult = {
 export type GetPageQueryResult = {
   _id: string
   _type: 'page'
-  name: string | null
-  slug: Slug | null
-  heading: string | null
+  name: string
+  slug: Slug
+  heading: string
   subheading: string | null
   pageBuilder: Array<
     | {
         _key: string
         _type: 'callToAction'
-        heading?: string
+        heading: string
         text?: string
         buttonText?: string
         link: {
@@ -665,19 +693,39 @@ export type GetPageQueryResult = {
           }>
           style?: 'blockquote' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'normal'
           listItem?: 'bullet' | 'number'
-          markDefs: Array<{
-            linkType?: 'href' | 'page' | 'post'
-            href?: string
-            page: string | null
-            post: string | null
-            openInNewTab?: boolean
-            _type: 'link'
-            _key: string
-          }> | null
+          markDefs: Array<
+            | {
+                size?: 'large' | 'normal' | 'small' | 'xlarge'
+                _type: 'fontSize'
+                _key: string
+              }
+            | {
+                linkType?: 'href' | 'page' | 'post'
+                href?: string
+                page: string | null
+                post: string | null
+                openInNewTab?: boolean
+                _type: 'link'
+                _key: string
+              }
+          > | null
           level?: number
           _type: 'block'
           _key: string
         }> | null
+        image?: {
+          asset?: {
+            _ref: string
+            _type: 'reference'
+            _weak?: boolean
+            [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+          }
+          media?: unknown
+          hotspot?: SanityImageHotspot
+          crop?: SanityImageCrop
+          alt?: string
+          _type: 'image'
+        }
       }
   > | null
 } | null
@@ -685,12 +733,12 @@ export type GetPageQueryResult = {
 // Query: *[_type == "page" || _type == "post" && defined(slug.current)] | order(_type asc) {    "slug": slug.current,    _type,    _updatedAt,  }
 export type SitemapDataResult = Array<
   | {
-      slug: string | null
+      slug: string
       _type: 'page'
       _updatedAt: string
     }
   | {
-      slug: string | null
+      slug: string
       _type: 'post'
       _updatedAt: string
     }
@@ -700,8 +748,8 @@ export type SitemapDataResult = Array<
 export type AllPostsQueryResult = Array<{
   _id: string
   status: 'draft' | 'published'
-  title: string | 'Untitled'
-  slug: string | null
+  title: string
+  slug: string
   excerpt: string | null
   coverImage: {
     asset?: {
@@ -715,11 +763,11 @@ export type AllPostsQueryResult = Array<{
     crop?: SanityImageCrop
     alt?: string
     _type: 'image'
-  } | null
+  }
   date: string
   author: {
-    firstName: string | null
-    lastName: string | null
+    firstName: string
+    lastName: string
     picture: {
       asset?: {
         _ref: string
@@ -732,7 +780,7 @@ export type AllPostsQueryResult = Array<{
       crop?: SanityImageCrop
       alt?: string
       _type: 'image'
-    } | null
+    }
   } | null
 }>
 // Variable: morePostsQuery
@@ -740,8 +788,8 @@ export type AllPostsQueryResult = Array<{
 export type MorePostsQueryResult = Array<{
   _id: string
   status: 'draft' | 'published'
-  title: string | 'Untitled'
-  slug: string | null
+  title: string
+  slug: string
   excerpt: string | null
   coverImage: {
     asset?: {
@@ -755,11 +803,11 @@ export type MorePostsQueryResult = Array<{
     crop?: SanityImageCrop
     alt?: string
     _type: 'image'
-  } | null
+  }
   date: string
   author: {
-    firstName: string | null
-    lastName: string | null
+    firstName: string
+    lastName: string
     picture: {
       asset?: {
         _ref: string
@@ -772,7 +820,7 @@ export type MorePostsQueryResult = Array<{
       crop?: SanityImageCrop
       alt?: string
       _type: 'image'
-    } | null
+    }
   } | null
 }>
 // Variable: postQuery
@@ -787,23 +835,30 @@ export type PostQueryResult = {
     }>
     style?: 'blockquote' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'normal'
     listItem?: 'bullet' | 'number'
-    markDefs: Array<{
-      linkType?: 'href' | 'page' | 'post'
-      href?: string
-      page: string | null
-      post: string | null
-      openInNewTab?: boolean
-      _type: 'link'
-      _key: string
-    }> | null
+    markDefs: Array<
+      | {
+          size?: 'large' | 'normal' | 'small' | 'xlarge'
+          _type: 'fontSize'
+          _key: string
+        }
+      | {
+          linkType?: 'href' | 'page' | 'post'
+          href?: string
+          page: string | null
+          post: string | null
+          openInNewTab?: boolean
+          _type: 'link'
+          _key: string
+        }
+    > | null
     level?: number
     _type: 'block'
     _key: string
   }> | null
   _id: string
   status: 'draft' | 'published'
-  title: string | 'Untitled'
-  slug: string | null
+  title: string
+  slug: string
   excerpt: string | null
   coverImage: {
     asset?: {
@@ -817,11 +872,11 @@ export type PostQueryResult = {
     crop?: SanityImageCrop
     alt?: string
     _type: 'image'
-  } | null
+  }
   date: string
   author: {
-    firstName: string | null
-    lastName: string | null
+    firstName: string
+    lastName: string
     picture: {
       asset?: {
         _ref: string
@@ -834,25 +889,25 @@ export type PostQueryResult = {
       crop?: SanityImageCrop
       alt?: string
       _type: 'image'
-    } | null
+    }
   } | null
 } | null
 // Variable: postPagesSlugs
 // Query: *[_type == "post" && defined(slug.current)]  {"slug": slug.current}
 export type PostPagesSlugsResult = Array<{
-  slug: string | null
+  slug: string
 }>
 // Variable: pagesSlugs
 // Query: *[_type == "page" && defined(slug.current)]  {"slug": slug.current}
 export type PagesSlugsResult = Array<{
-  slug: string | null
+  slug: string
 }>
 // Variable: allDisciplinesQuery
 // Query: *[_type == "discipline" && defined(slug.current)] | order(_createdAt asc) {    _id,    title,    slug,    coverImage,    useDirectSlug,  }
 export type AllDisciplinesQueryResult = Array<{
   _id: string
-  title: string | null
-  slug: Slug | null
+  title: string
+  slug: Slug
   coverImage: {
     asset?: {
       _ref: string
@@ -865,15 +920,15 @@ export type AllDisciplinesQueryResult = Array<{
     crop?: SanityImageCrop
     alt?: string
     _type: 'image'
-  } | null
-  useDirectSlug: null
+  }
+  useDirectSlug: boolean | null
 }>
 // Variable: disciplineQuery
 // Query: *[_type == "discipline" && slug.current == $slug] [0] {    _id,    title,    slug,    coverImage,    description,    images,    useDirectSlug,  }
 export type DisciplineQueryResult = {
   _id: string
-  title: string | null
-  slug: Slug | null
+  title: string
+  slug: Slug
   coverImage: {
     asset?: {
       _ref: string
@@ -886,7 +941,7 @@ export type DisciplineQueryResult = {
     crop?: SanityImageCrop
     alt?: string
     _type: 'image'
-  } | null
+  }
   description: BlockContent | null
   images: Array<{
     asset?: {
@@ -903,12 +958,12 @@ export type DisciplineQueryResult = {
     _type: 'image'
     _key: string
   }> | null
-  useDirectSlug: null
+  useDirectSlug: boolean | null
 } | null
 // Variable: disciplinesSlugs
 // Query: *[_type == "discipline" && defined(slug.current)]  {"slug": slug.current}
 export type DisciplinesSlugsResult = Array<{
-  slug: string | null
+  slug: string
 }>
 
 // Query TypeMap

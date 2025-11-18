@@ -33,25 +33,11 @@ export default function HomePage({ disciplines }: HomePageProps) {
   useEffect(() => {
     if (!homePageRef.current) return
 
-    // Prevent all scrolling and pull-to-refresh on the homepage only
-    const preventScroll = (e: TouchEvent) => {
-      // Allow touch events on the slider
-      const target = e.target as HTMLElement
-      if (target.closest('[data-slider]')) {
-        return
-      }
-      e.preventDefault()
-    }
-
-    // Apply event listener only to the homepage container
+    // Only prevent overscroll/bounce effect on mobile to avoid pull-to-refresh
     const homePageElement = homePageRef.current
-    homePageElement.addEventListener('touchmove', preventScroll, { passive: false })
-
-    // Prevent overscroll/bounce effect only on the homepage container
     homePageElement.style.overscrollBehavior = 'none'
 
     return () => {
-      homePageElement.removeEventListener('touchmove', preventScroll)
       homePageElement.style.overscrollBehavior = ''
     }
   }, [])
@@ -174,7 +160,7 @@ export default function HomePage({ disciplines }: HomePageProps) {
 
   return (
 
-    <div ref={homePageRef} className="h-full flex flex-col overflow-hidden overflow-x-visible">
+    <div ref={homePageRef} className="h-full flex flex-col overflow-y-auto overflow-x-visible">
 
       <div className="flex-shrink-0 pt-8">
         <InfiniteSlider items={disciplines} />
@@ -188,7 +174,7 @@ export default function HomePage({ disciplines }: HomePageProps) {
             <p className="animate-text text-[clamp(1.3rem,.1vw,1rem)] font-barlow tracking-tight opacity-0 leading-none">Otherwise</p>
           </div>
           <div className="overflow-hidden">
-            <h1 className="animate-text text-[2.8rem] md:text-[clamp(2rem,5vw,4rem)] font-bold text-primary leading-none font-barlow tracking-tight uppercase opacity-0">Anders denken <br /> én anders doen.</h1>
+            <h1 className="animate-text tracking-tighter leading-none text-[11vw] md:text-[3vw] font-bold text-primary leading-none font-barlow tracking-tight uppercase opacity-0">Anders denken <br /> én anders doen.</h1>
           </div>
           
           {/* <div className="flex items-center justify-between gap-6 w-full">
@@ -204,9 +190,9 @@ export default function HomePage({ disciplines }: HomePageProps) {
           </div> */}
         </div>
 
-        <div className="flex-1"/>
+        <div className="hidden lg:flex-1"/>
         
-        <div className="w-full lg:w-1/3 hidden lg:block text-[clamp(0.575rem,1vw,0.9rem)] home-text text-pretty">
+        <div className="w-full lg:w-1/3 block text-[clamp(0.6rem,1vw,1rem)] home-text text-pretty">
         <div className="overflow-hidden">
             <p className="animate-text opacity-0 tracking-tighter font-bold">Snel, secuur en altijd een oplossing</p>
           </div>
@@ -219,7 +205,7 @@ export default function HomePage({ disciplines }: HomePageProps) {
 Bij Otherwise geloven we dat elk vraagstuk een creatieve oplossing heeft. Of je nu op zoek bent naar een opvallend verpakkingsontwerp, een effectieve direct mail campagne of een sterk communicatie­­middel dat echt opvalt. Wij zorgen dat jouw merk overal opvalt en indruk maakt. Van flyer tot insert en van brochure tot online banner, we vertalen elk idee moeiteloos naar print en digitaal. Zo blijft je merk herkenbaar, krachtig en zichtbaar op elk kanaal, van de brievenbus tot het beeldscherm.</p>
 
         </div>
-        <div className="w-full lg:w-1/3 flex items-center justify-center -z-10">
+        <div className="w-full lg:w-1/3 flex items-center justify-center">
         <Link href="/otherprice-days" className="max-w-44 md:max-w-72 h-auto">
           <Image src="/images/Otherprice-days.webp" alt="Otherwise" width={500} height={500} className="object-cover" />
           </Link>

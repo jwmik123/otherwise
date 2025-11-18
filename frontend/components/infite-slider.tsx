@@ -262,32 +262,23 @@ export default function InfiniteSlider({
       scrollTimeoutRef.current = setTimeout(resetScale, 150);
     };
 
-    // Touch handlers
+    // Touch handlers - only use horizontal swipes on mobile
     let touchStartX = 0;
-    let touchStartY = 0;
 
     const handleTouchStart = (e: TouchEvent) => {
       touchStartX = e.touches[0].clientX;
-      touchStartY = e.touches[0].clientY;
     };
 
     const handleTouchMove = (e: TouchEvent) => {
       const touchCurrentX = e.touches[0].clientX;
-      const touchCurrentY = e.touches[0].clientY;
 
-      // Calculate differences for both axes
+      // Only use horizontal movement
       const diffX = touchStartX - touchCurrentX;
-      const diffY = touchStartY - touchCurrentY;
 
-      // Use vertical swipes to control horizontal movement
-      // Combine both horizontal and vertical movements for total effect
-      const totalDiff = diffX + diffY;
-
-      targetXRef.current -= totalDiff * 4.5;
+      targetXRef.current -= diffX * 4.5;
       touchStartX = touchCurrentX;
-      touchStartY = touchCurrentY;
 
-      scrollVelocityRef.current = Math.abs(totalDiff * 4.5);
+      scrollVelocityRef.current = Math.abs(diffX * 4.5);
       animateScale(scrollVelocityRef.current);
     };
 
