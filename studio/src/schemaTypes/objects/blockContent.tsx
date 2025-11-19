@@ -35,7 +35,6 @@ export const blockContent = defineType({
                   list: [
                     {title: 'URL', value: 'href'},
                     {title: 'Page', value: 'page'},
-                    {title: 'Post', value: 'post'},
                   ],
                   layout: 'radio',
                 },
@@ -63,20 +62,6 @@ export const blockContent = defineType({
                   Rule.custom((value, context: any) => {
                     if (context.parent?.linkType === 'page' && !value) {
                       return 'Page reference is required when Link Type is Page'
-                    }
-                    return true
-                  }),
-              }),
-              defineField({
-                name: 'post',
-                title: 'Post',
-                type: 'reference',
-                to: [{type: 'post'}],
-                hidden: ({parent}) => parent?.linkType !== 'post',
-                validation: (Rule) =>
-                  Rule.custom((value, context: any) => {
-                    if (context.parent?.linkType === 'post' && !value) {
-                      return 'Post reference is required when Link Type is Post'
                     }
                     return true
                   }),
