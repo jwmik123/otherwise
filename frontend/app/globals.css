@@ -36,18 +36,7 @@
 }
 
 
-.cursor {
-  z-index: 100;
-  background-color: #287CB9;
-  border: 1px solid #287CB9;
-  border-radius: 100em;
-  width: 1em;
-  height: 1em;
-  transition: background-color .375s cubic-bezier(.625, .05, 0, 1), height .375s cubic-bezier(.625, .05, 0, 1), width .375s cubic-bezier(.625, .05, 0, 1);
-  position: fixed;
-  inset: 0% auto auto 0%;
-  pointer-events: none;
-}
+
 
 body:has( a:hover) .cursor,
 body:has( button:hover) .cursor,
@@ -82,6 +71,16 @@ html, body {
   height: 100%;
 }
 
+/* Hide scrollbar for all browsers */
+* {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+*::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
 @keyframes marquee {
   0% {
     transform: translateX(0);
@@ -93,4 +92,19 @@ html, body {
 
 .animate-marquee {
   animation: marquee 20s linear infinite;
+}
+
+em {
+  display: inline;
+  line-height: inherit;
+  /* do something here to make the em inline */
+}
+
+.prose em {
+  display: inline;
+  line-height: inherit;
+}
+
+p:has(em) {
+  line-height: 1.15rem;
 }

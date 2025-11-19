@@ -92,7 +92,7 @@ export default function CustomPortableText({
   }
 
   return (
-    <div className={['prose prose-a:text-brand', className].filter(Boolean).join(' ')}>
+    <div className={['prose prose-a:text-brand' , className].filter(Boolean).join(' ')}>
       <PortableText components={components} value={value} />
     </div>
   )
