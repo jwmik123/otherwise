@@ -207,7 +207,7 @@ Bij Otherwise geloven we dat elk vraagstuk een creatieve oplossing heeft. Of je 
         </div>
         <div className="w-full lg:w-1/3 flex items-center justify-center">
         <Link href="/otherprice-days" className="max-w-44 md:max-w-72 h-auto">
-          <Image src="/images/Otherprice-days.webp" alt="Otherwise" width={500} height={500} className="object-cover" />
+          <Image src="/images/ballon-otherprice-days.webp" alt="Otherwise" width={500} height={500} className="object-cover" />
           </Link>
         </div>
        

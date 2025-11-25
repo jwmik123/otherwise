@@ -351,7 +351,7 @@ export default function InfiniteSlider({
             }}
           >
             <div className="pb-4">
-              <h3 className="item-title text-[clamp(1rem,1.5vw,1.1rem)] pl-4 -mb-1 tracking-tight opacity-0">
+              <h3 className="item-title text-[clamp(1rem,1.5vw,1.2rem)] font-bold pl-[3%] -mb-1 tracking-tight opacity-0">
                 {item.title}
               </h3>
             </div>
