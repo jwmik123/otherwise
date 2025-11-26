@@ -78,7 +78,7 @@ export default async function DisciplinePage({params}: Props) {
 
         {/* Image Gallery */}
         {discipline.images && discipline.images.length > 0 && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-16">
+          <div className={`grid gap-8 mt-16 ${discipline.images.filter((image: any) => image?.asset).length === 1 ? 'grid-cols-1' : 'grid-cols-1 md:grid-cols-2'}`}>
             {discipline.images
               .filter((image: any) => image?.asset)
               .map((image: any, index: number) => (
