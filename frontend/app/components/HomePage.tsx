@@ -239,7 +239,7 @@ export default function HomePage({ disciplines }: HomePageProps) {
         <div className="hidden lg:flex-1"/>
         
         <div className={`w-full lg:w-1/3 block home-text text-pretty break-words transition-all duration-300 ${
-          isCompactView ? 'text-[clamp(0.75rem,0.8vw,0.875rem)]' : 'text-[clamp(0.7rem,0.8vw,.5rem)]'
+          isCompactView ? 'text-[clamp(0.75rem,0.9vw,0.875rem)]' : 'text-[clamp(0.7rem,0.9vw,.875rem)]'
         }`}>
         <div className="overflow-hidden">
             <p className="animate-text opacity-0 tracking-tighter font-bold">Snel, secuur en altijd een oplossing</p>
