@@ -108,3 +108,51 @@ em {
 p:has(em) {
   line-height: 1.15rem;
 }
+
+/* Ensure proper text wrapping across all browsers */
+.home-text p,
+.home-text h1,
+.home-text h2,
+.home-text h3 {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  -ms-hyphens: auto;
+}
+
+/* Compact header for small viewports and zoomed views */
+@media (max-height: 600px), (max-height: 700px) and (max-width: 767px), (max-height: 1000px) and (min-width: 1400px) and (max-width: 1600px) {
+  header {
+    height: 4rem !important; /* 64px instead of 96px */
+    transition: height 0.3s ease;
+  }
+
+  header .container {
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
+  }
+
+  header span {
+    font-size: 1rem !important; /* 16px instead of 24px */
+  }
+
+  header nav ul {
+    font-size: 0.75rem !important; /* 12px */
+    gap: 0.5rem !important;
+  }
+
+  header nav button,
+  header nav a.rounded-full {
+    padding-top: 0.375rem !important;
+    padding-bottom: 0.375rem !important;
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+    font-size: 0.75rem !important;
+  }
+
+  header nav svg {
+    height: 1rem !important;
+    width: 1rem !important;
+  }
+}
