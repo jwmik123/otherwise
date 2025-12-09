@@ -2,10 +2,15 @@
 
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
+import { useEffect, useState } from 'react'
 
 export default function Marquee({text}: {text: string}) {
   const pathname = usePathname()
-  const isHomepage = pathname === '/'
+  const [isHomepage, setIsHomepage] = useState(false)
+
+  useEffect(() => {
+    setIsHomepage(pathname === '/')
+  }, [pathname])
 
   const MarqueeContent = () => (
     <>
