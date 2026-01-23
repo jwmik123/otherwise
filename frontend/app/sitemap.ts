@@ -42,11 +42,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           changeFrequency = 'monthly'
           url = `${domain}/${p.slug}`
           break
-        case 'post':
-          priority = 0.5
-          changeFrequency = 'never'
-          url = `${domain}/posts/${p.slug}`
-          break
       }
       sitemap.push({
         lastModified: p._updatedAt || new Date(),
