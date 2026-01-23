@@ -2,8 +2,14 @@
 
 import {useEffect, useRef, useState} from 'react'
 import gsap from 'gsap'
+import {type BlockContent} from '@/sanity.types'
+import CustomPortableText from './PortableText'
 
-export default function ContactPanel() {
+interface ContactPanelProps {
+  content?: BlockContent
+}
+
+export default function ContactPanel({content}: ContactPanelProps) {
   const [isOpen, setIsOpen] = useState(false)
   const buttonRef = useRef<HTMLButtonElement>(null)
   const panelRef = useRef<HTMLDivElement>(null)
@@ -112,31 +118,14 @@ export default function ContactPanel() {
           ref={contentRef}
           className="p-8 opacity-0"
         >
-          <div className="text-white text-sm space-y-1 whitespace-nowrap">
-            <p>Algemeen</p>
-            <p>
-              <a href="tel:0205707875" className="text-white font-bold hover:opacity-80">
-                020 570 78 75
-              </a>
-            </p>
-            <p>Rogier | Operations manager</p>
-            <p>
-              <a href="tel:0651178778" className="text-white font-bold hover:opacity-80">
-                06 51 17 87 78
-              </a>
-            </p>
-            <p>
-              <a href="mailto:projects@otherwise.amsterdam" className="text-white font-bold hover:opacity-80">
-                projects@otherwise.amsterdam
-              </a>
-            </p>
-
-            <div className="pt-4">
-              <p className="font-semibold">Adres</p>
-              <p>Meeuwenlaan 98-100</p>
-              <p>1021 JL Amsterdam</p>
-            </div>
-          </div>
+          {content && content.length > 0 ? (
+            <CustomPortableText
+              value={content}
+              className="text-white text-sm prose-p:my-1 prose-a:text-white prose-a:font-bold prose-headings:text-white prose-strong:text-white whitespace-nowrap"
+            />
+          ) : (
+            <p className="text-white text-sm">No contact information available.</p>
+          )}
         </div>
       </div>
     </>

@@ -9,6 +9,7 @@
  */
 
 import {PortableText, type PortableTextComponents, type PortableTextBlock} from 'next-sanity'
+import {type BlockContent} from '@/sanity.types'
 
 import ResolvedLink from '@/app/components/ResolvedLink'
 
@@ -17,7 +18,7 @@ export default function CustomPortableText({
   value,
 }: {
   className?: string
-  value: PortableTextBlock[]
+  value: PortableTextBlock[] | BlockContent
 }) {
   const components: PortableTextComponents = {
     block: {
@@ -93,7 +94,7 @@ export default function CustomPortableText({
 
   return (
     <div className={['prose prose-a:text-brand' , className].filter(Boolean).join(' ')}>
-      <PortableText components={components} value={value} />
+      <PortableText components={components} value={value as PortableTextBlock[]} />
     </div>
   )
 }

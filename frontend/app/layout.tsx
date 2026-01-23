@@ -104,7 +104,7 @@ export default async function RootLayout({children}: {children: React.ReactNode}
               </Link>
               {/* Desktop Navigation */}
               <div className="hidden md:flex gap-10 text-lg">
-                <ContactPanel />
+                <ContactPanel content={settings?.contactContent} />
               </div>
               {/* Mobile Navigation */}
               <MobileMenu />

@@ -105,6 +105,12 @@ export const settings = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
+      name: 'contactContent',
+      title: 'Contact Panel Content',
+      description: 'Content displayed in the contact panel dropdown',
+      type: 'blockContent',
+    }),
+    defineField({
       name: 'ogImage',
       title: 'Open Graph Image',
       type: 'image',
