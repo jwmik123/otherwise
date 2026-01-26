@@ -45,7 +45,9 @@ export const blockContent = defineType({
                 type: 'url',
                 hidden: ({parent}) => parent?.linkType !== 'href' && parent?.linkType != null,
                 validation: (Rule) =>
-                  Rule.custom((value, context: any) => {
+                  Rule.uri({
+                    scheme: ['http', 'https', 'mailto', 'tel'],
+                  }).custom((value, context: any) => {
                     if (context.parent?.linkType === 'href' && !value) {
                       return 'URL is required when Link Type is URL'
                     }
