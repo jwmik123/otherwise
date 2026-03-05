@@ -2,7 +2,23 @@
   "permissions": {
     "allow": [
       "Bash(npm run build --workspace=frontend)",
-      "Bash(npm run typegen:*)"
+      "Bash(npm run typegen:*)",
+      "Bash(npm install sanity@4.22.0 @sanity/assist @sanity/vision sanity-plugin-asset-source-unsplash pluralize-esm)",
+      "Bash(npm install sanity@4.22.0 @sanity/assist @sanity/vision \"sanity-plugin-asset-source-unsplash@4.0.1\" pluralize-esm)",
+      "Bash(npm run extract-schema)",
+      "Bash(npm install)",
+      "Bash(npm view react-dom@\"^19.1.1\" version --json)",
+      "Bash(node -e \"console.log\\(''react:'', require\\(''./node_modules/react/package.json''\\).version, ''react-dom:'', require\\(''./node_modules/react-dom/package.json''\\).version\\)\")",
+      "Bash(npm view sanity@4.22.0 peerDependencies)",
+      "Bash(npm ls react-dom)",
+      "Bash(npm view next@15.5.7 dependencies.react-dom)",
+      "Bash(npm view next@15.5.7 peerDependencies)",
+      "Bash(python3 -c \"import json,sys; p=json.load\\(sys.stdin\\); print\\(p.get\\(''dependencies'',{}\\).get\\(''react-dom'',''not found''\\)\\)\")",
+      "Bash(python3 -c \"import json,sys; p=json.load\\(sys.stdin\\); deps=p.get\\(''dependencies'',{}\\); print\\(deps.get\\(''react-dom'',''not in deps''\\)\\); pdeps=p.get\\(''peerDependencies'',{}\\); print\\(''peer:'', pdeps.get\\(''react-dom'',''not in peer deps''\\)\\)\")",
+      "Bash(python3 -c \":*)",
+      "Bash(sanity typegen generate)",
+      "Bash(npm run type-check)",
+      "Bash(ls /Users/joelmik/Code/otherwise/frontend/app/\\\\\\(site\\\\\\)/)"
     ],
     "deny": [],
     "ask": []

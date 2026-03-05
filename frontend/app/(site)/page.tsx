@@ -1,5 +1,5 @@
 import HomePage from '@/app/components/HomePage'
-import {allDisciplinesQuery} from '@/sanity/lib/queries'
+import {allDisciplinesQuery, homePageSettingsQuery} from '@/sanity/lib/queries'
 import {sanityFetch} from '@/sanity/lib/live'
 import imageUrlBuilder from '@sanity/image-url'
 import {client} from '@/sanity/lib/client'
@@ -7,9 +7,10 @@ import {client} from '@/sanity/lib/client'
 const builder = imageUrlBuilder(client)
 
 export default async function Page() {
-  const {data: disciplines} = await sanityFetch({
-    query: allDisciplinesQuery,
-  })
+  const [{data: disciplines}, {data: settings}] = await Promise.all([
+    sanityFetch({query: allDisciplinesQuery}),
+    sanityFetch({query: homePageSettingsQuery}),
+  ])
 
   // Transform disciplines to include image URLs
   const disciplinesWithUrls = disciplines?.map((discipline: any) => ({
@@ -23,5 +24,22 @@ export default async function Page() {
     },
   }))
 
-  return <HomePage disciplines={disciplinesWithUrls || []} />
+  const homepageImageUrl = settings?.homepageImage?.asset
+    ? builder.image(settings.homepageImage).width(800).fit('max').url()
+    : undefined
+
+  return (
+    <HomePage
+      disciplines={disciplinesWithUrls || []}
+      homepageTagline={settings?.homepageTagline ?? undefined}
+      homepageHeading={settings?.homepageHeading ?? undefined}
+      homepageSection1Title={settings?.homepageSection1Title ?? undefined}
+      homepageSection1Body={settings?.homepageSection1Body ?? undefined}
+      homepageSection2Title={settings?.homepageSection2Title ?? undefined}
+      homepageSection2Body={settings?.homepageSection2Body ?? undefined}
+      homepageImageUrl={homepageImageUrl}
+      homepageImageAlt={settings?.homepageImage?.alt ?? undefined}
+      homepageImageLink={settings?.homepageImage?.link ?? undefined}
+    />
+  )
 }

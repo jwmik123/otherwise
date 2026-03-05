@@ -2,6 +2,24 @@ import {defineQuery} from 'next-sanity'
 
 export const settingsQuery = defineQuery(`*[_type == "settings"][0]`)
 
+export const homePageSettingsQuery = defineQuery(`
+  *[_type == "settings" && _id == "siteSettings"][0]{
+    homepageTagline,
+    homepageHeading,
+    homepageSection1Title,
+    homepageSection1Body,
+    homepageSection2Title,
+    homepageSection2Body,
+    homepageImage{
+      asset,
+      alt,
+      link,
+      hotspot,
+      crop,
+    },
+  }
+`)
+
 const postFields = /* groq */ `
   _id,
   "status": select(_originalId in path("drafts.**") => "draft", "published"),

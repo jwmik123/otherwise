@@ -23,9 +23,29 @@ interface DisciplineItem {
 
 interface HomePageProps {
   disciplines: DisciplineItem[]
+  homepageTagline?: string
+  homepageHeading?: string
+  homepageSection1Title?: string
+  homepageSection1Body?: string
+  homepageSection2Title?: string
+  homepageSection2Body?: string
+  homepageImageUrl?: string
+  homepageImageAlt?: string
+  homepageImageLink?: string
 }
 
-export default function HomePage({ disciplines }: HomePageProps) {
+export default function HomePage({
+  disciplines,
+  homepageTagline = 'Otherwise',
+  homepageHeading = 'Anders denken én anders doen.',
+  homepageSection1Title = 'Snel, secuur en altijd een oplossing',
+  homepageSection1Body = 'Otherwise is een no-nonsense creatieve studio waar strategie, design en realisatie samenkomen. Van concept tot uitvoering maken wij alles wat merken laat stralen, snel, secuur en met oog voor detail. We houden van korte lijnen, duidelijkheid en een goed resultaat waar iedereen blij van wordt. In plaats van snel scoren richten we ons op duurzame relaties en langdurige resultaten.',
+  homepageSection2Title = 'Creatieve oplossingen en sterke communicatie',
+  homepageSection2Body = 'Bij Otherwise geloven we dat elk vraagstuk een creatieve oplossing heeft. Of je nu op zoek bent naar een opvallend verpakkingsontwerp, een effectieve direct mail campagne of een sterk communicatiemiddel dat echt opvalt. Wij zorgen dat jouw merk overal opvalt en indruk maakt. Van flyer tot insert en van brochure tot online banner, we vertalen elk idee moeiteloos naar print en digitaal. Zo blijft je merk herkenbaar, krachtig en zichtbaar op elk kanaal, van de brievenbus tot het beeldscherm.',
+  homepageImageUrl,
+  homepageImageAlt = 'Otherwise',
+  homepageImageLink = '/otherprice-days',
+}: HomePageProps) {
   const textContainerRef = useRef<HTMLDivElement>(null)
   const homePageRef = useRef<HTMLDivElement>(null)
   const [sliderWidth, setSliderWidth] = useState(550)
@@ -213,14 +233,17 @@ export default function HomePage({ disciplines }: HomePageProps) {
           <div className="overflow-hidden">
             <p className={`animate-text font-barlow tracking-tight opacity-0 leading-none transition-all duration-300 ${
               isCompactView ? 'text-[clamp(0.875rem,1.5vw,1.1rem)]' : 'text-[clamp(1rem,2vw,1.3rem)]'
-            }`}>Otherwise</p>
+            }`}>{homepageTagline}</p>
           </div>
           <div className="overflow-hidden">
             <h1 className={`animate-text tracking-tighter leading-none font-bold text-primary font-barlow tracking-tight uppercase opacity-0 break-words transition-all duration-300 ${
               isCompactView
-                ? 'text-[clamp(2rem,9vw,3.5rem)] md:text-[clamp(1.75rem,2.5vw,3rem)]'
-                : 'text-[clamp(2.5rem,11vw,5rem)] md:text-[clamp(2rem,3vw,4rem)]'
-            }`}>Anders denken <br /> én anders doen.</h1>
+                ? 'text-[clamp(2rem,9vw,3.5rem)]'
+              : 'text-[clamp(2.5rem,11vw,5rem)] md:text-[clamp(2rem,4vw,4rem)]'
+                //  
+            }`}>{homepageHeading.split('\n').map((line, i, arr) => (
+                <span key={i}>{line}{i < arr.length - 1 && <br />}</span>
+              ))}</h1>
           </div>
           
           {/* <div className="flex items-center justify-between gap-6 w-full">
@@ -242,20 +265,22 @@ export default function HomePage({ disciplines }: HomePageProps) {
           isCompactView ? 'text-[clamp(0.75rem,0.9vw,0.875rem)]' : 'text-[clamp(0.7rem,0.9vw,.875rem)]'
         }`}>
         <div className="overflow-hidden">
-            <p className="animate-text opacity-0 tracking-tighter font-bold">Snel, secuur en altijd een oplossing</p>
+            <p className="animate-text opacity-0 tracking-tighter font-bold">{homepageSection1Title}</p>
           </div>
-          <p className="opacity-0 animate-text pb-2">
-          Otherwise is een no-nonsense creatieve studio waar strategie, design en realisatie samenkomen. Van concept tot uitvoering maken wij alles wat merken laat stralen, snel, secuur en met oog voor detail. We houden van korte lijnen, duidelijkheid en een goed resultaat waar iedereen blij van wordt. In plaats van snel scoren richten we ons op duurzame relaties en langdurige resultaten.
-          </p>
-          <p className="font-bold animate-text">Creatieve oplossingen en sterke communicatie</p>
-
-          <p className="opacity-0 animate-text">
-Bij Otherwise geloven we dat elk vraagstuk een creatieve oplossing heeft. Of je nu op zoek bent naar een opvallend verpakkingsontwerp, een effectieve direct mail campagne of een sterk communicatiemiddel dat echt opvalt. Wij zorgen dat jouw merk overal opvalt en indruk maakt. Van flyer tot insert en van brochure tot online banner, we vertalen elk idee moeiteloos naar print en digitaal. Zo blijft je merk herkenbaar, krachtig en zichtbaar op elk kanaal, van de brievenbus tot het beeldscherm.</p>
+          <p className="opacity-0 animate-text pb-2">{homepageSection1Body}</p>
+          <p className="font-bold animate-text">{homepageSection2Title}</p>
+          <p className="opacity-0 animate-text">{homepageSection2Body}</p>
 
         </div>
-        <div className="w-full lg:w-1/3 flex items-center justify-center">
-        <Link href="/otherprice-days" className="max-w-44 md:max-w-72 h-auto">
-          <Image src="/images/ballon-otherprice-days.webp" alt="Otherwise" width={500} height={500} className="object-cover" />
+        <div className="w-full relative lg:w-1/3 flex items-center justify-center">
+          <Link href={homepageImageLink} className="max-w-44 md:max-w-72 h-auto">
+            <Image
+              src={homepageImageUrl ?? '/images/ballon-otherprice-days.webp'}
+              alt={homepageImageAlt}
+              width={500}
+              height={500}
+              className="w-full h-auto"
+            />
           </Link>
         </div>
        
