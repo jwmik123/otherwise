@@ -43,6 +43,7 @@ function resolveHref(documentType?: string, slug?: string, useDirectSlug?: boole
 export default defineConfig({
   name: 'default',
   title: 'Otherwise Amsterdam',
+  basePath: '/studio',
 
   projectId,
   dataset,
