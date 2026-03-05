@@ -28,7 +28,7 @@ export type Link = {
 
 export type CallToAction = {
   _type: 'callToAction'
-  heading?: string
+  heading: string
   text?: string
   buttonText?: string
   link?: Link
@@ -94,9 +94,9 @@ export type Person = {
   _createdAt: string
   _updatedAt: string
   _rev: string
-  firstName?: string
-  lastName?: string
-  picture?: {
+  firstName: string
+  lastName: string
+  picture: {
     asset?: {
       _ref: string
       _type: 'reference'
@@ -113,18 +113,18 @@ export type Person = {
 
 export type SanityImageCrop = {
   _type: 'sanity.imageCrop'
-  top?: number
-  bottom?: number
-  left?: number
-  right?: number
+  top: number
+  bottom: number
+  left: number
+  right: number
 }
 
 export type SanityImageHotspot = {
   _type: 'sanity.imageHotspot'
-  x?: number
-  y?: number
-  height?: number
-  width?: number
+  x: number
+  y: number
+  height: number
+  width: number
 }
 
 export type Discipline = {
@@ -133,10 +133,10 @@ export type Discipline = {
   _createdAt: string
   _updatedAt: string
   _rev: string
-  title?: string
-  slug?: Slug
+  title: string
+  slug: Slug
   useDirectSlug?: boolean
-  coverImage?: {
+  coverImage: {
     asset?: {
       _ref: string
       _type: 'reference'
@@ -169,7 +169,7 @@ export type Discipline = {
 
 export type Slug = {
   _type: 'slug'
-  current?: string
+  current: string
   source?: string
 }
 
@@ -179,7 +179,7 @@ export type Settings = {
   _createdAt: string
   _updatedAt: string
   _rev: string
-  title?: string
+  title: string
   description?: Array<{
     children?: Array<{
       marks?: Array<string>
@@ -206,7 +206,7 @@ export type Settings = {
     _type: 'block'
     _key: string
   }>
-  marqueeText?: string
+  marqueeText: string
   contactContent?: BlockContent
   ogImage?: {
     asset?: {
@@ -230,9 +230,9 @@ export type Page = {
   _createdAt: string
   _updatedAt: string
   _rev: string
-  name?: string
-  slug?: Slug
-  heading?: string
+  name: string
+  slug: Slug
+  heading: string
   subheading?: string
   pageBuilder?: Array<
     | ({
@@ -284,7 +284,7 @@ export type SanityAssistOutputField = {
 
 export type SanityAssistInstructionContext = {
   _type: 'sanity.assist.instruction.context'
-  reference?: {
+  reference: {
     _ref: string
     _type: 'reference'
     _weak?: boolean
@@ -317,7 +317,7 @@ export type AssistInstructionContext = {
 
 export type SanityAssistInstructionUserInput = {
   _type: 'sanity.assist.instruction.userInput'
-  message?: string
+  message: string
   description?: string
 }
 
@@ -400,9 +400,9 @@ export type SanityImagePalette = {
 
 export type SanityImageDimensions = {
   _type: 'sanity.imageDimensions'
-  height?: number
-  width?: number
-  aspectRatio?: number
+  height: number
+  width: number
+  aspectRatio: number
 }
 
 export type SanityImageMetadata = {
@@ -517,7 +517,7 @@ export type SettingsQueryResult = {
   _createdAt: string
   _updatedAt: string
   _rev: string
-  title?: string
+  title: string
   description?: Array<{
     children?: Array<{
       marks?: Array<string>
@@ -544,7 +544,7 @@ export type SettingsQueryResult = {
     _type: 'block'
     _key: string
   }>
-  marqueeText?: string
+  marqueeText: string
   contactContent?: BlockContent
   ogImage?: {
     asset?: {
@@ -566,15 +566,15 @@ export type SettingsQueryResult = {
 export type GetPageQueryResult = {
   _id: string
   _type: 'page'
-  name: string | null
-  slug: Slug | null
-  heading: string | null
+  name: string
+  slug: Slug
+  heading: string
   subheading: string | null
   pageBuilder: Array<
     | {
         _key: string
         _type: 'callToAction'
-        heading?: string
+        heading: string
         text?: string
         buttonText?: string
         link: {
@@ -639,7 +639,7 @@ export type GetPageQueryResult = {
 // Variable: sitemapData
 // Query: *[_type == "page" || _type == "post" && defined(slug.current)] | order(_type asc) {    "slug": slug.current,    _type,    _updatedAt,  }
 export type SitemapDataResult = Array<{
-  slug: string | null
+  slug: string
   _type: 'page'
   _updatedAt: string
 }>
@@ -658,14 +658,14 @@ export type PostPagesSlugsResult = Array<never>
 // Variable: pagesSlugs
 // Query: *[_type == "page" && defined(slug.current)]  {"slug": slug.current}
 export type PagesSlugsResult = Array<{
-  slug: string | null
+  slug: string
 }>
 // Variable: allDisciplinesQuery
 // Query: *[_type == "discipline" && defined(slug.current)] | order(_createdAt asc) {    _id,    title,    slug,    coverImage,    useDirectSlug,  }
 export type AllDisciplinesQueryResult = Array<{
   _id: string
-  title: string | null
-  slug: Slug | null
+  title: string
+  slug: Slug
   coverImage: {
     asset?: {
       _ref: string
@@ -678,15 +678,15 @@ export type AllDisciplinesQueryResult = Array<{
     crop?: SanityImageCrop
     alt?: string
     _type: 'image'
-  } | null
+  }
   useDirectSlug: boolean | null
 }>
 // Variable: disciplineQuery
 // Query: *[_type == "discipline" && slug.current == $slug] [0] {    _id,    title,    slug,    coverImage,    description,    images,    useDirectSlug,  }
 export type DisciplineQueryResult = {
   _id: string
-  title: string | null
-  slug: Slug | null
+  title: string
+  slug: Slug
   coverImage: {
     asset?: {
       _ref: string
@@ -699,7 +699,7 @@ export type DisciplineQueryResult = {
     crop?: SanityImageCrop
     alt?: string
     _type: 'image'
-  } | null
+  }
   description: BlockContent | null
   images: Array<{
     asset?: {
@@ -721,7 +721,7 @@ export type DisciplineQueryResult = {
 // Variable: disciplinesSlugs
 // Query: *[_type == "discipline" && defined(slug.current)]  {"slug": slug.current}
 export type DisciplinesSlugsResult = Array<{
-  slug: string | null
+  slug: string
 }>
 
 // Query TypeMap
