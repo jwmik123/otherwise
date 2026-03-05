@@ -13,6 +13,10 @@ export const settings = defineType({
   title: 'Settings',
   type: 'document',
   icon: CogIcon,
+  groups: [
+    {name: 'homepage', title: 'Homepagina'},
+    {name: 'settings', title: 'Settings'},
+  ],
   fields: [
     defineField({
       name: 'title',
@@ -20,6 +24,7 @@ export const settings = defineType({
       title: 'Title',
       type: 'string',
       initialValue: demo.title,
+      group: 'settings',
       validation: (rule) => rule.required(),
     }),
     defineField({
@@ -27,6 +32,7 @@ export const settings = defineType({
       description: 'Used on the Homepage',
       title: 'Description',
       type: 'array',
+      group: 'settings',
       initialValue: demo.description,
       of: [
         defineArrayMember({
@@ -102,6 +108,7 @@ export const settings = defineType({
       title: 'Marquee Text',
       description: 'Text displayed in the scrolling marquee banner',
       type: 'string',
+      group: 'settings',
       initialValue: 'Welcome to our site',
       validation: (rule) => rule.required(),
     }),
@@ -110,12 +117,14 @@ export const settings = defineType({
       title: 'Contact Panel Content',
       description: 'Content displayed in the contact panel dropdown',
       type: 'blockContent',
+      group: 'settings',
     }),
     defineField({
       name: 'homepageTagline',
       title: 'Homepage Tagline',
       description: 'Small label above the main heading (e.g. "Otherwise")',
       type: 'string',
+      group: 'homepage',
       initialValue: 'Otherwise',
     }),
     defineField({
@@ -124,12 +133,14 @@ export const settings = defineType({
       description: 'Main hero heading on the homepage. Press Enter for a new line.',
       type: 'text',
       rows: 3,
+      group: 'homepage',
       initialValue: 'Anders denken\nén anders doen.',
     }),
     defineField({
       name: 'homepageSection1Title',
       title: 'Homepage Section 1 Title',
       type: 'string',
+      group: 'homepage',
       initialValue: 'Snel, secuur en altijd een oplossing',
     }),
     defineField({
@@ -137,6 +148,7 @@ export const settings = defineType({
       title: 'Homepage Section 1 Body',
       type: 'text',
       rows: 4,
+      group: 'homepage',
       initialValue:
         'Otherwise is een no-nonsense creatieve studio waar strategie, design en realisatie samenkomen. Van concept tot uitvoering maken wij alles wat merken laat stralen, snel, secuur en met oog voor detail. We houden van korte lijnen, duidelijkheid en een goed resultaat waar iedereen blij van wordt. In plaats van snel scoren richten we ons op duurzame relaties en langdurige resultaten.',
     }),
@@ -144,6 +156,7 @@ export const settings = defineType({
       name: 'homepageSection2Title',
       title: 'Homepage Section 2 Title',
       type: 'string',
+      group: 'homepage',
       initialValue: 'Creatieve oplossingen en sterke communicatie',
     }),
     defineField({
@@ -151,6 +164,7 @@ export const settings = defineType({
       title: 'Homepage Section 2 Body',
       type: 'text',
       rows: 4,
+      group: 'homepage',
       initialValue:
         'Bij Otherwise geloven we dat elk vraagstuk een creatieve oplossing heeft. Of je nu op zoek bent naar een opvallend verpakkingsontwerp, een effectieve direct mail campagne of een sterk communicatiemiddel dat echt opvalt. Wij zorgen dat jouw merk overal opvalt en indruk maakt. Van flyer tot insert en van brochure tot online banner, we vertalen elk idee moeiteloos naar print en digitaal. Zo blijft je merk herkenbaar, krachtig en zichtbaar op elk kanaal, van de brievenbus tot het beeldscherm.',
     }),
@@ -159,6 +173,7 @@ export const settings = defineType({
       title: 'Homepage Image',
       description: 'Image displayed on the right side of the homepage',
       type: 'image',
+      group: 'homepage',
       options: {hotspot: true},
       fields: [
         defineField({
@@ -178,6 +193,7 @@ export const settings = defineType({
       name: 'ogImage',
       title: 'Open Graph Image',
       type: 'image',
+      group: 'settings',
       description: 'Displayed on social cards and search engine results.',
       options: {
         hotspot: true,
